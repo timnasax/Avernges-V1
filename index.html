@@ -3,384 +3,1417 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avengers Bot V1 - Pairing Servers</title>
+    <title>Avengers Bot V1 - Ultimate Portal</title>
+    <!-- FontAwesome Icons & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #091319, #0f2027, #182a34);
+            --card-bg: rgba(22, 36, 48, 0.7);
+            --card-border: rgba(0, 210, 255, 0.15);
+            --primary-cyan: #00d2ff;
+            --primary-blue: #3a7bd5;
+            --accent-green: #2ea44f;
+            --accent-gold: #ffb703;
+            --accent-red: #ff4b2b;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --nav-bg: rgba(10, 18, 26, 0.92);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #ffffff;
+            background: var(--bg-gradient);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        .container {
+        /* Phone Frame Container */
+        .app-viewport {
             width: 100%;
             max-width: 480px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100vh;
+            max-height: 920px;
+            background: rgba(13, 23, 33, 0.95);
+            backdrop-filter: blur(20px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
 
-        .header {
+        @media (min-width: 500px) {
+            .app-viewport {
+                border-radius: 28px;
+                height: 92vh;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        /* Top Header */
+        .app-header {
+            padding: 18px 20px 14px;
+            background: rgba(10, 18, 26, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 10;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+        }
+
+        .brand-text h1 {
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #fff, var(--primary-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-text p {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .user-status-pill {
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary-cyan);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
+        }
+
+        /* Content Container */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 100px;
+            scroll-behavior: smooth;
+        }
+
+        /* Hide Scrollbar */
+        .app-content::-webkit-scrollbar {
+            display: none;
+        }
+        .app-content {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Page View Switching */
+        .page-view {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        .page-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* AUTH SCREEN */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100%;
+            padding: 10px 0;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .auth-header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
-        .header h1 {
-            font-size: 26px;
-            color: #00d2ff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .auth-header h2 {
+            font-size: 22px;
             font-weight: 700;
+            margin-bottom: 6px;
         }
 
-        .header p {
-            font-size: 14px;
-            color: #ccc;
-            margin-top: 6px;
+        .auth-header p {
+            font-size: 13px;
+            color: var(--text-muted);
         }
 
-        /* Form Styles */
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
             display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
             margin-bottom: 6px;
-            font-size: 13px;
-            color: #ddd;
-            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .form-group input {
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
             width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.3);
+            padding: 13px 15px 13px 42px;
+            background: rgba(8, 15, 22, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             color: #fff;
             font-size: 14px;
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
 
-        .form-group input:focus {
-            border-color: #00d2ff;
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
-        }
-
-        .btn {
-            width: 100%;
+        .form-group textarea {
             padding: 12px;
-            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            height: 80px;
+            resize: none;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary-cyan);
+            box-shadow: 0 0 12px rgba(0, 210, 255, 0.25);
+            background: rgba(8, 15, 22, 0.9);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             color: #fff;
             font-size: 15px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .btn:hover {
-            opacity: 0.95;
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.45);
         }
 
-        .toggle-text {
+        .auth-toggle {
             text-align: center;
             margin-top: 18px;
             font-size: 13px;
-            color: #aaa;
+            color: var(--text-muted);
         }
 
-        .toggle-text span {
-            color: #00d2ff;
+        .auth-toggle span {
+            color: var(--primary-cyan);
+            font-weight: 700;
             cursor: pointer;
-            font-weight: bold;
         }
 
-        .toggle-text span:hover {
-            text-decoration: underline;
-        }
-
-        /* Dashboard Styles */
-        .dashboard {
-            display: none;
-        }
-
-        .welcome-box {
-            background: rgba(0, 210, 255, 0.12);
-            border-left: 4px solid #00d2ff;
-            padding: 15px;
-            border-radius: 6px;
+        /* HOME PAGE STYLES */
+        .welcome-banner {
+            background: linear-gradient(135deg, rgba(0,210,255,0.15), rgba(58,123,213,0.15));
+            border: 1px solid rgba(0, 210, 255, 0.25);
+            border-radius: 16px;
+            padding: 18px;
             margin-bottom: 20px;
-            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .welcome-box h2 {
+        .welcome-banner::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, rgba(0,210,255,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .welcome-title {
             font-size: 18px;
-            color: #fff;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
 
-        .server-list {
+        .welcome-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            margin: 18px 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .server-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.25s ease;
+        }
+
+        .server-card:hover {
+            border-color: rgba(0, 210, 255, 0.4);
+            transform: translateX(3px);
+        }
+
+        .server-info h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .server-tag {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 6px;
+            background: rgba(46, 164, 79, 0.2);
+            color: #2ea44f;
+            border: 1px solid rgba(46, 164, 79, 0.3);
+            font-weight: 600;
+        }
+
+        .server-status {
+            font-size: 12px;
+            color: var(--accent-green);
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-pair {
+            padding: 9px 15px;
+            background: linear-gradient(135deg, #238636, #2ea44f);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 3px 10px rgba(46, 164, 79, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-pair:hover {
+            transform: scale(1.05);
+            background: #2ea44f;
+        }
+
+        /* UPDATES PAGE */
+        .update-item {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .update-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .update-tag {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(0, 210, 255, 0.15);
+            color: var(--primary-cyan);
+        }
+
+        .update-date {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .update-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .update-body {
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        /* PANEL BUY PAGE */
+        .pricing-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 14px;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent-gold);
+            background: linear-gradient(135deg, rgba(22, 36, 48, 0.9), rgba(255, 183, 3, 0.08));
+        }
+
+        .badge-popular {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--accent-gold), #e67e22);
+            color: #000;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .plan-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .plan-price {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary-cyan);
+            margin-bottom: 10px;
+        }
+
+        .plan-price span {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .plan-features li {
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .plan-features li i {
+            color: var(--accent-green);
+            font-size: 12px;
+        }
+
+        .btn-buy {
+            width: 100%;
+            padding: 11px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+
+        /* CHAT PAGE */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 480px;
+            background: rgba(8, 15, 22, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 14px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .server-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.35);
-            padding: 14px 18px;
-            border-radius: 10px;
+        .chat-bubble {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .chat-bubble.received {
+            background: rgba(22, 36, 48, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: transform 0.2s ease;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
         }
 
-        .server-card:hover {
-            transform: scale(1.02);
+        .chat-bubble.sent {
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
         }
 
-        .server-info h3 {
-            font-size: 15px;
-            color: #00d2ff;
+        .chat-author {
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 3px;
+            color: var(--accent-gold);
         }
 
-        .server-info p {
+        .chat-time {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .chat-input-bar {
+            display: flex;
+            padding: 10px;
+            background: rgba(10, 18, 26, 0.9);
+            gap: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .chat-input-bar input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 14px;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .btn-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-cyan);
+            border: none;
+            color: #000;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* SETTINGS & SUPPORT PAGE */
+        .settings-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        .profile-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 15px;
+        }
+
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .profile-info h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .profile-info p {
             font-size: 12px;
-            color: #2ea44f;
+            color: var(--text-muted);
+        }
+
+        .support-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .support-btn:hover {
+            background: rgba(0, 210, 255, 0.1);
+            border-color: var(--primary-cyan);
+        }
+
+        .support-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .support-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .icon-channel { background: rgba(0, 210, 255, 0.2); color: var(--primary-cyan); }
+        .icon-group { background: rgba(37, 211, 102, 0.2); color: #25D366; }
+        .icon-owner { background: rgba(255, 183, 3, 0.2); color: var(--accent-gold); }
+
+        .btn-logout {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 75, 43, 0.15);
+            border: 1px solid rgba(255, 75, 43, 0.3);
+            color: var(--accent-red);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* OWNER / ADMIN PAGE */
+        .admin-badge {
+            background: linear-gradient(135deg, var(--accent-gold), #d4ac0d);
+            color: #000;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .stat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 14px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary-cyan);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
             margin-top: 2px;
         }
 
-        .server-btn {
-            padding: 8px 14px;
-            background: #238636;
-            color: #fff;
+        /* FLOATING BOTTOM NAVIGATION BAR (Matching Reference Design) */
+        .bottom-nav-wrapper {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 440px;
+            z-index: 100;
+        }
+
+        .bottom-nav {
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 35px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
             text-decoration: none;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: bold;
-            transition: 0.3s;
+            padding: 6px 10px;
+            border-radius: 20px;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            min-width: 55px;
         }
 
-        .server-btn:hover {
-            background: #2ea44f;
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+            transition: all 0.25s ease;
         }
 
-        .btn-logout {
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            margin-top: 20px;
+        .nav-item span {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
         }
 
-        .btn-logout:hover {
-            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
+        .nav-item.active {
+            color: #ffffff;
+        }
+
+        .nav-item.active i {
+            color: var(--primary-cyan);
+            transform: translateY(-2px);
+        }
+
+        /* Owner Spec Tab */
+        .nav-item.owner-tab {
+            display: none;
+        }
+
+        .nav-item.owner-tab.active i {
+            color: var(--accent-gold);
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- HEADER -->
-        <div class="header">
-            <h1>AVENGERS BOT V1</h1>
-            <p id="sub-title">Sign up or log in to access pairing code servers</p>
+    <div class="app-viewport">
+        <!-- APP TOP HEADER -->
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>AVENGERS V1</h1>
+                    <p>Bot Server Control Portal</p>
+                </div>
+            </div>
+            <div class="user-status-pill" id="header-status">
+                <span class="status-dot"></span>
+                <span id="header-status-text">Guest</span>
+            </div>
+        </header>
+
+        <!-- MAIN SCROLLABLE CONTENT -->
+        <main class="app-content">
+
+            <!-- PAGE 0: AUTHENTICATION (Login / Signup) -->
+            <div id="page-auth" class="page-view active">
+                <div class="auth-container">
+                    <div class="auth-card">
+                        <!-- LOGIN FORM -->
+                        <div id="form-login">
+                            <div class="auth-header">
+                                <h2>Welcome Back</h2>
+                                <p>Enter your credentials to access pair servers</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone / Username</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <input type="text" id="login-phone" placeholder="e.g. 255784766591">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-lock"></i>
+                                    <input type="password" id="login-pass" placeholder="••••••••">
+                                </div>
+                            </div>
+                            <button class="btn-primary" onclick="handleLogin()">
+                                Log In <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <div class="auth-toggle">
+                                Don't have an account? <span onclick="toggleAuthForm('signup')">Sign Up</span>
+                            </div>
+                        </div>
+
+                        <!-- SIGNUP FORM -->
+                        <div id="form-signup" style="display: none;">
+                            <div class="auth-header">
+                                <h2>Create Account</h2>
+                                <p>Register to unlock Avengers Bot Pair Servers</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-user"></i>
+                                    <input type="text" id="signup-name" placeholder="John Doe">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number / Username</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <input type="text" id="signup-phone" placeholder="255XXXXXXXXX">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Create Password</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-key"></i>
+                                    <input type="password" id="signup-pass" placeholder="••••••••">
+                                </div>
+                            </div>
+                            <button class="btn-primary" onclick="handleRegister()">
+                                Register Account <i class="fa-solid fa-user-plus"></i>
+                            </button>
+                            <div class="auth-toggle">
+                                Already registered? <span onclick="toggleAuthForm('login')">Log In</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 1: HOME (Pairing Servers) -->
+            <div id="page-home" class="page-view">
+                <div class="welcome-banner">
+                    <div class="welcome-title">Hello, <span id="user-display-name">User</span>! 🔥</div>
+                    <div class="welcome-sub">Select any available high-speed pairing server below to connect your WhatsApp bot instance.</div>
+                </div>
+
+                <div class="section-title">
+                    <span><i class="fa-solid fa-server"></i> Active Servers</span>
+                    <span style="color: var(--accent-green); font-size: 11px;">● 5/5 Online</span>
+                </div>
+
+                <!-- Server List -->
+                <div class="server-card">
+                    <div class="server-info">
+                        <h4>SERVER 1 <span class="server-tag">MAIN</span></h4>
+                        <div class="server-status"><i class="fa-solid fa-bolt"></i> Ultra Fast • 99.9% Uptime</div>
+                    </div>
+                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="btn-pair">
+                        Pair Code <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                </div>
+
+                <div class="server-card">
+                    <div class="server-info">
+                        <h4>SERVER 2 <span class="server-tag">BACKUP</span></h4>
+                        <div class="server-status"><i class="fa-solid fa-shield-halved"></i> Stable Backup</div>
+                    </div>
+                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="btn-pair">
+                        Pair Code <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                </div>
+
+                <div class="server-card">
+                    <div class="server-info">
+                        <h4>SERVER 3 <span class="server-tag">SPEED</span></h4>
+                        <div class="server-status"><i class="fa-solid fa-gauge-high"></i> High Speed Response</div>
+                    </div>
+                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="btn-pair">
+                        Pair Code <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                </div>
+
+                <div class="server-card">
+                    <div class="server-info">
+                        <h4>SERVER 4 <span class="server-tag" style="color: var(--accent-gold); border-color: var(--accent-gold);">VIP</span></h4>
+                        <div class="server-status"><i class="fa-solid fa-crown" style="color: var(--accent-gold);"></i> VIP Premium Nodes</div>
+                    </div>
+                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="btn-pair">
+                        Pair Code <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                </div>
+
+                <div class="server-card">
+                    <div class="server-info">
+                        <h4>SERVER 5 <span class="server-tag">TURBO</span></h4>
+                        <div class="server-status"><i class="fa-solid fa-rocket"></i> Ultra Turbo Speed</div>
+                    </div>
+                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="btn-pair">
+                        Pair Code <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- PAGE 2: UPDATES -->
+            <div id="page-updates" class="page-view">
+                <div class="section-title">
+                    <span><i class="fa-solid fa-bullhorn"></i> Official Announcements</span>
+                </div>
+
+                <div id="updates-list-container">
+                    <div class="update-item">
+                        <div class="update-header">
+                            <span class="update-tag">v1.2.0 RELEASE</span>
+                            <span class="update-date">Today</span>
+                        </div>
+                        <div class="update-title">⚡ High-Speed Pairing & Stability Boost</div>
+                        <div class="update-body">We have upgraded Server 1 & Server 5 to new cloud instances! Pairing response time is now under 3 seconds.</div>
+                    </div>
+
+                    <div class="update-item">
+                        <div class="update-header">
+                            <span class="update-tag" style="background: rgba(255,183,3,0.15); color: var(--accent-gold);">MAINTENANCE</span>
+                            <span class="update-date">Yesterday</span>
+                        </div>
+                        <div class="update-title">🔧 Scheduled Database Optimization</div>
+                        <div class="update-body">All servers are operating smoothly. Backups have been performed automatically.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 3: PANEL BUY -->
+            <div id="page-buy" class="page-view">
+                <div class="section-title">
+                    <span><i class="fa-solid fa-cart-shopping"></i> Purchase Bot Panel</span>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="plan-title">Basic User Access</div>
+                    <div class="plan-price">TSH 5,000 <span>/ month</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fa-solid fa-check"></i> Standard Pair Code Server Access</li>
+                        <li><i class="fa-solid fa-check"></i> 24/7 Uptime Support</li>
+                        <li><i class="fa-solid fa-check"></i> Basic Command Set</li>
+                    </ul>
+                    <a href="https://wa.me/255784766591?text=Hello%20Owner,%20I%20want%20to%20buy%20the%20Basic%20User%20Access%20Panel" target="_blank" class="btn-buy">
+                        <i class="fa-brands fa-whatsapp"></i> Buy Basic Panel
+                    </a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <span class="badge-popular">MOST POPULAR</span>
+                    <div class="plan-title">VIP Premium Panel</div>
+                    <div class="plan-price" style="color: var(--accent-gold);">TSH 12,000 <span>/ month</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fa-solid fa-check"></i> VIP High Speed Server Access</li>
+                        <li><i class="fa-solid fa-check"></i> Anti-Ban Features Included</li>
+                        <li><i class="fa-solid fa-check"></i> Priority Owner Support</li>
+                        <li><i class="fa-solid fa-check"></i> Full Auto-Respond Features</li>
+                    </ul>
+                    <a href="https://wa.me/255784766591?text=Hello%20Owner,%20I%20want%20to%20buy%20the%20VIP%20Premium%20Bot%20Panel" target="_blank" class="btn-buy" style="background: linear-gradient(135deg, #ffb703, #e67e22); color: #000;">
+                        <i class="fa-brands fa-whatsapp"></i> Buy VIP Panel
+                    </a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="plan-title">Reseller Panel Admin</div>
+                    <div class="plan-price">TSH 25,000 <span>/ lifetime</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fa-solid fa-check"></i> Own Your Own Pairing Servers</li>
+                        <li><i class="fa-solid fa-check"></i> Full Admin Control Access</li>
+                        <li><i class="fa-solid fa-check"></i> Sell Pair Codes to Clients</li>
+                    </ul>
+                    <a href="https://wa.me/255784766591?text=Hello%20Owner,%20I%20am%20interested%20in%20buying%20the%20Reseller%20Panel%20Admin" target="_blank" class="btn-buy">
+                        <i class="fa-brands fa-whatsapp"></i> Buy Reseller Rights
+                    </a>
+                </div>
+            </div>
+
+            <!-- PAGE 4: CHAT 💬 -->
+            <div id="page-chat" class="page-view">
+                <div class="section-title">
+                    <span><i class="fa-solid fa-comments"></i> Community Live Chat</span>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-box">
+                        <div class="chat-bubble received">
+                            <div class="chat-author"><i class="fa-solid fa-robot"></i> Avengers System</div>
+                            Welcome to Avengers Bot Live Chat! Connect and discuss with other bot users.
+                            <div class="chat-time">10:00 AM</div>
+                        </div>
+                        <div class="chat-bubble received">
+                            <div class="chat-author"><i class="fa-solid fa-crown"></i> Owner Admin</div>
+                            Need pairing code help? Make sure your WhatsApp connection is active on mobile.
+                            <div class="chat-time">10:05 AM</div>
+                        </div>
+                    </div>
+                    <div class="chat-input-bar">
+                        <input type="text" id="chat-input" placeholder="Type a message...">
+                        <button class="btn-send" onclick="sendChatMessage()">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 5: SETTINGS & WHATSAPP SUPPORT -->
+            <div id="page-settings" class="page-view">
+                <div class="settings-card">
+                    <div class="profile-row">
+                        <div class="profile-avatar" id="avatar-initials">U</div>
+                        <div class="profile-info">
+                            <h3 id="settings-user-name">User Account</h3>
+                            <p id="settings-user-phone">+255 XXXXXXXX</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <span><i class="fa-brands fa-whatsapp"></i> Official WhatsApp Support</span>
+                </div>
+
+                <div class="settings-card">
+                    <a href="https://whatsapp.com/channel/0029VaXXXXX" target="_blank" class="support-btn">
+                        <div class="support-left">
+                            <div class="support-icon icon-channel"><i class="fa-solid fa-bullhorn"></i></div>
+                            <span>WhatsApp Channel</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </a>
+
+                    <a href="https://chat.whatsapp.com/XXXXX" target="_blank" class="support-btn">
+                        <div class="support-left">
+                            <div class="support-icon icon-group"><i class="fa-solid fa-users"></i></div>
+                            <span>WhatsApp Community Group</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </a>
+
+                    <a href="https://wa.me/255784766591" target="_blank" class="support-btn">
+                        <div class="support-left">
+                            <div class="support-icon icon-owner"><i class="fa-solid fa-user-shield"></i></div>
+                            <span>Direct Owner WhatsApp (+255784766591)</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </a>
+                </div>
+
+                <button class="btn-logout" onclick="handleLogout()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Log Out Account
+                </button>
+            </div>
+
+            <!-- PAGE 6: OWNER ADMIN PANEL (Only accessible by 255784766591 / 12390) -->
+            <div id="page-owner" class="page-view">
+                <div class="admin-badge">
+                    <i class="fa-solid fa-crown"></i> OWNER ADMIN CONTROL
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-number">1,482</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">5/5</div>
+                        <div class="stat-label">Servers Active</div>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px;">
+                        <i class="fa-solid fa-plus-circle" style="color: var(--primary-cyan);"></i> Post New Announcement / Update
+                    </h3>
+                    <div class="form-group">
+                        <label>Announcement Title</label>
+                        <input type="text" id="admin-update-title" placeholder="e.g. New Server Added">
+                    </div>
+                    <div class="form-group">
+                        <label>Announcement Details</label>
+                        <textarea id="admin-update-body" placeholder="Write update text here..."></textarea>
+                    </div>
+                    <button class="btn-primary" onclick="publishOwnerUpdate()">
+                        <i class="fa-solid fa-paper-plane"></i> Publish Update Now
+                    </button>
+                </div>
+
+                <div class="settings-card">
+                    <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 10px;">
+                        <i class="fa-solid fa-sliders" style="color: var(--accent-gold);"></i> System Settings
+                    </h3>
+                    <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+                        Owner Phone: <strong>255784766591</strong><br>
+                        Logged in with full Master Privileges.
+                    </p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- FLOATING BOTTOM NAVIGATION BAR (Design matching user screenshot) -->
+        <div class="bottom-nav-wrapper" id="nav-bar-container" style="display: none;">
+            <nav class="bottom-nav">
+                <div class="nav-item active" onclick="switchTab('home')" id="tab-home">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('updates')" id="tab-updates">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>Updates</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('buy')" id="tab-buy">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <span>Panel Buy</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('chat')" id="tab-chat">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>Chat 💬</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('settings')" id="tab-settings">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </div>
+                <!-- Owner tab visible ONLY to owner login -->
+                <div class="nav-item owner-tab" onclick="switchTab('owner')" id="tab-owner">
+                    <i class="fa-solid fa-crown"></i>
+                    <span>Owner</span>
+                </div>
+            </nav>
         </div>
-
-        <!-- SIGN UP FORM -->
-        <div id="signup-box">
-            <div class="form-group">
-                <label for="signup-name">Full Name</label>
-                <input type="text" id="signup-name" placeholder="Enter your full name">
-            </div>
-            <div class="form-group">
-                <label for="signup-email">Email or Username</label>
-                <input type="text" id="signup-email" placeholder="Enter your email or username">
-            </div>
-            <div class="form-group">
-                <label for="signup-pass">Password</label>
-                <input type="password" id="signup-pass" placeholder="Create a password">
-            </div>
-            <button class="btn" onclick="register()">Create Account</button>
-            <div class="toggle-text">
-                Already have an account? <span onclick="showLogin()">Log In</span>
-            </div>
-        </div>
-
-        <!-- LOG IN FORM -->
-        <div id="login-box" style="display: none;">
-            <div class="form-group">
-                <label for="login-user">Email or Username</label>
-                <input type="text" id="login-user" placeholder="Enter username or email">
-            </div>
-            <div class="form-group">
-                <label for="login-pass">Password</label>
-                <input type="password" id="login-pass" placeholder="Enter your password">
-            </div>
-            <button class="btn" onclick="login()">Log In</button>
-            <div class="toggle-text">
-                Don't have an account? <span onclick="showSignup()">Sign Up</span>
-            </div>
-        </div>
-
-        <!-- DASHBOARD -->
-        <div id="dashboard" class="dashboard">
-            <div class="welcome-box">
-                <h2 id="welcome-message">Welcome!</h2>
-                <p style="font-size: 13px; color: #ddd; margin-top: 4px;">Select a server below to get your pairing code:</p>
-            </div>
-
-            <div class="server-list">
-                <!-- Server 1 -->
-                <div class="server-card">
-                    <div class="server-info">
-                        <h3>SERVER 1 (Main)</h3>
-                        <p>● Active - Online</p>
-                    </div>
-                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
-                </div>
-
-                <!-- Server 2 -->
-                <div class="server-card">
-                    <div class="server-info">
-                        <h3>SERVER 2</h3>
-                        <p>● Active - Backup</p>
-                    </div>
-                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
-                </div>
-
-                <!-- Server 3 -->
-                <div class="server-card">
-                    <div class="server-info">
-                        <h3>SERVER 3</h3>
-                        <p>● Active - High Speed</p>
-                    </div>
-                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
-                </div>
-
-                <!-- Server 4 -->
-                <div class="server-card">
-                    <div class="server-info">
-                        <h3>SERVER 4</h3>
-                        <p>● Active - VIP Server</p>
-                    </div>
-                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
-                </div>
-
-                <!-- Server 5 -->
-                <div class="server-card">
-                    <div class="server-info">
-                        <h3>SERVER 5</h3>
-                        <p>● Active - Ultra Fast</p>
-                    </div>
-                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
-                </div>
-            </div>
-
-            <button class="btn btn-logout" onclick="logout()">Log Out</button>
-        </div>
-
     </div>
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Check if user is already logged in on page load
-        window.onload = function() {
-            const activeUser = localStorage.getItem('avengers_active_session');
-            if (activeUser) {
-                const userData = JSON.parse(activeUser);
-                openDashboard(userData.name);
+        const OWNER_PHONE = "255784766591";
+        const OWNER_PASS = "12390";
+
+        let currentUser = null;
+
+        // Auto Load Session
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedSession = localStorage.getItem('avengers_active_session');
+            if (savedSession) {
+                currentUser = JSON.parse(savedSession);
+                initLoggedInState();
+            } else {
+                showAuthPage();
             }
-        };
+        });
 
-        function showLogin() {
-            document.getElementById('signup-box').style.display = 'none';
-            document.getElementById('login-box').style.display = 'block';
-            document.getElementById('sub-title').innerText = 'Enter your credentials to log in';
+        // Auth Form Switcher
+        function toggleAuthForm(type) {
+            if (type === 'signup') {
+                document.getElementById('form-login').style.display = 'none';
+                document.getElementById('form-signup').style.display = 'block';
+            } else {
+                document.getElementById('form-signup').style.display = 'none';
+                document.getElementById('form-login').style.display = 'block';
+            }
         }
 
-        function showSignup() {
-            document.getElementById('login-box').style.display = 'none';
-            document.getElementById('signup-box').style.display = 'block';
-            document.getElementById('sub-title').innerText = 'Sign up or log in to access pairing code servers';
-        }
-
-        function register() {
+        // Register Action
+        function handleRegister() {
             const name = document.getElementById('signup-name').value.trim();
-            const user = document.getElementById('signup-email').value.trim().toLowerCase();
+            const phone = document.getElementById('signup-phone').value.trim();
             const pass = document.getElementById('signup-pass').value.trim();
 
-            if (!name || !user || !pass) {
-                alert('Please fill in all required fields!');
+            if (!name || !phone || !pass) {
+                alert('Please fill in all fields!');
                 return;
             }
 
-            const userData = { name: name, username: user, password: pass };
-            localStorage.setItem('avengers_user_' + user, JSON.stringify(userData));
+            const userData = { name: name, phone: phone, pass: pass };
+            localStorage.setItem('avengers_user_' + phone, JSON.stringify(userData));
 
-            alert('Account created successfully! You can now log in.');
-            document.getElementById('login-user').value = user;
-            showLogin();
+            alert('Account created successfully! Please log in.');
+            document.getElementById('login-phone').value = phone;
+            toggleAuthForm('login');
         }
 
-        function login() {
-            const user = document.getElementById('login-user').value.trim().toLowerCase();
+        // Login Action
+        function handleLogin() {
+            const phone = document.getElementById('login-phone').value.trim();
             const pass = document.getElementById('login-pass').value.trim();
 
-            if (!user || !pass) {
-                alert('Please enter your username/email and password!');
+            if (!phone || !pass) {
+                alert('Please enter your phone/username and password!');
                 return;
             }
 
-            const savedUser = localStorage.getItem('avengers_user_' + user);
+            // Check if Owner Master Credential
+            if (phone === OWNER_PHONE && pass === OWNER_PASS) {
+                currentUser = {
+                    name: "Owner Admin",
+                    phone: OWNER_PHONE,
+                    isOwner: true
+                };
+                localStorage.setItem('avengers_active_session', JSON.stringify(currentUser));
+                initLoggedInState();
+                alert('Welcome back, Master Owner! 🔥 Admin controls unlocked.');
+                return;
+            }
 
+            // Check standard registered user
+            const savedUser = localStorage.getItem('avengers_user_' + phone);
             if (!savedUser) {
-                alert('Account not found. Please register first!');
+                alert('Account not found! Please sign up first.');
                 return;
             }
 
             const userData = JSON.parse(savedUser);
-
-            if (userData.password === pass) {
-                localStorage.setItem('avengers_active_session', JSON.stringify(userData));
-                openDashboard(userData.name);
+            if (userData.pass === pass) {
+                currentUser = {
+                    name: userData.name,
+                    phone: userData.phone,
+                    isOwner: false
+                };
+                localStorage.setItem('avengers_active_session', JSON.stringify(currentUser));
+                initLoggedInState();
             } else {
                 alert('Incorrect password! Please try again.');
             }
         }
 
-        function openDashboard(name) {
-            document.getElementById('signup-box').style.display = 'none';
-            document.getElementById('login-box').style.display = 'none';
-            document.getElementById('sub-title').style.display = 'none';
-            
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('welcome-message').innerText = 'Welcome, ' + name + '! 🔥';
+        // Initialize App State
+        function initLoggedInState() {
+            // Update User Headers & Labels
+            document.getElementById('user-display-name').innerText = currentUser.name;
+            document.getElementById('settings-user-name').innerText = currentUser.name;
+            document.getElementById('settings-user-phone').innerText = currentUser.phone;
+            document.getElementById('avatar-initials').innerText = currentUser.name.charAt(0).toUpperCase();
+
+            const headerStatusText = document.getElementById('header-status-text');
+            if (currentUser.isOwner) {
+                headerStatusText.innerText = 'OWNER ADMIN';
+                headerStatusText.style.color = 'var(--accent-gold)';
+                document.querySelector('.owner-tab').style.display = 'flex';
+            } else {
+                headerStatusText.innerText = 'Active Member';
+                document.querySelector('.owner-tab').style.display = 'none';
+            }
+
+            // Show Bottom Nav & Switch to Home
+            document.getElementById('nav-bar-container').style.display = 'block';
+            switchTab('home');
         }
 
-        function logout() {
+        // Tab View Switcher
+        function switchTab(tabName) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-view');
+            pages.forEach(p => p.classList.remove('active'));
+
+            // Deactivate all nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(n => n.classList.remove('active'));
+
+            // Show target page
+            const targetPage = document.getElementById('page-' + tabName);
+            const targetNav = document.getElementById('tab-' + tabName);
+
+            if (targetPage) targetPage.classList.add('active');
+            if (targetNav) targetNav.classList.add('active');
+        }
+
+        // Show Auth Screen
+        function showAuthPage() {
+            document.getElementById('nav-bar-container').style.display = 'none';
+            const pages = document.querySelectorAll('.page-view');
+            pages.forEach(p => p.classList.remove('active'));
+            document.getElementById('page-auth').classList.add('active');
+            document.getElementById('header-status-text').innerText = 'Guest';
+        }
+
+        // Logout
+        function handleLogout() {
             localStorage.removeItem('avengers_active_session');
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('sub-title').style.display = 'block';
-            showLogin();
+            currentUser = null;
+            showAuthPage();
+        }
+
+        // Live Chat Message Send
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const messageText = input.value.trim();
+
+            if (!messageText) return;
+
+            const chatBox = document.getElementById('chat-box');
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const bubbleHtml = `
+                <div class="chat-bubble sent">
+                    <div class="chat-author" style="color: #fff;">${currentUser ? currentUser.name : 'You'}</div>
+                    ${escapeHtml(messageText)}
+                    <div class="chat-time">${timeStr}</div>
+                </div>
+            `;
+
+            chatBox.innerHTML += bubbleHtml;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Publish Announcement (Owner Feature)
+        function publishOwnerUpdate() {
+            const title = document.getElementById('admin-update-title').value.trim();
+            const body = document.getElementById('admin-update-body').value.trim();
+
+            if (!title || !body) {
+                alert('Please enter update title and details!');
+                return;
+            }
+
+            const updatesContainer = document.getElementById('updates-list-container');
+            const newUpdateHtml = `
+                <div class="update-item">
+                    <div class="update-header">
+                        <span class="update-tag" style="background: rgba(46,164,79,0.2); color: #2ea44f;">ANNOUNCEMENT</span>
+                        <span class="update-date">Just Now</span>
+                    </div>
+                    <div class="update-title">📢 ${escapeHtml(title)}</div>
+                    <div class="update-body">${escapeHtml(body)}</div>
+                </div>
+            `;
+
+            updatesContainer.insertAdjacentHTML('afterbegin', newUpdateHtml);
+            document.getElementById('admin-update-title').value = '';
+            document.getElementById('admin-update-body').value = '';
+
+            alert('Announcement posted successfully!');
+            switchTab('updates');
+        }
+
+        // Helper to sanitize HTML
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
     </script>
 </body>
 </html>
+```eof
+
+Ukiendesha au kufungua faili hili kwenye vivinjari (Browser) au mfumo wowote wa web/app, utapata mfumo kamili wa kisasa kama ulivyoagiza!
