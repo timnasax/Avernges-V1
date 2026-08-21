@@ -121,9 +121,27 @@
                 </div>
             </div>
 
-            <!-- Pair 2 to 5 -->
+            <!-- Pair 2 -->
+            <div class="glass-panel p-4 rounded-xl border border-wa-accent/40 hover:border-wa-accent transition-all">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-wa-accent/15 border border-wa-accent/30 flex items-center justify-center text-wa-green font-bold text-sm">P2</div>
+                        <div>
+                            <h3 class="font-bold text-white text-sm">PAIR SERVER 2</h3>
+                            <p class="text-xs text-emerald-400 flex items-center gap-1 mt-0.5">
+                                <i class="fa-solid fa-circle text-[8px]"></i> Active
+                            </p>
+                        </div>
+                    </div>
+                    <a href="https://avernges-sever5-02e17331d58e.herokuapp.com" target="_blank" class="bg-wa-accent hover:bg-wa-teal text-white font-semibold text-xs px-4 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Open Pair 2
+                    </a>
+                </div>
+            </div>
+
+            <!-- Pair 3 to 5 -->
             <script>
-                for(let i=2; i<=5; i++){
+                for(let i=3; i<=5; i++){
                     document.write(`
                     <div class="glass-panel p-4 rounded-xl border border-gray-800">
                         <div class="flex items-center justify-between">
@@ -435,7 +453,7 @@
                 if (lower.includes('buy') || lower.includes('cost') || lower.includes('price')) {
                     response = "Bot prices start from 2,500 TZS up to 18,500 TZS for the Unlimited Admin Panel. Check the 'Buy Bots' or 'Panels' tab!";
                 } else if (lower.includes('pair') || lower.includes('code')) {
-                    response = "To get your Pair Code, click on 'Pair Code' tab, open Pair Server 1, and input your WhatsApp phone number.";
+                    response = "To get your Pair Code, click on 'Pair Code' tab, open Pair Server 1 or 2, and input your WhatsApp phone number.";
                 }
                 appendMsg(response, 'bot');
             }, 600);
