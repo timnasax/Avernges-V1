@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timothy Bot - WhatsApp Server Dashboard</title>
+    <title>Timothy Bot - WhatsApp Server & Panel Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -16,7 +16,6 @@
                             green: '#25D366',
                             dark: '#075E54',
                             teal: '#128C7E',
-                            light: '#25D366',
                             bg: '#0b141a',
                             card: '#111b21',
                             subcard: '#202c33',
@@ -37,23 +36,13 @@
             background-color: #0b141a;
             color: #e9edef;
         }
-        .pulse-dot {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(37, 211, 102, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-        }
         .glass-panel {
             background: rgba(17, 27, 33, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
-            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: #0b141a;
@@ -64,9 +53,9 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between pb-20 md:pb-6 antialiased selection:bg-wa-accent selection:text-white">
+<body class="min-h-screen flex flex-col justify-between pb-24 md:pb-8 antialiased selection:bg-wa-accent selection:text-white">
 
-    <!-- Top WhatsApp Business Sync Notification Banner -->
+    <!-- Top WhatsApp Sync Banner -->
     <div id="syncBanner" class="bg-gradient-to-r from-wa-dark to-slate-900 border-b border-wa-accent/20 px-4 py-3 text-sm flex items-center justify-between shadow-lg">
         <div class="flex items-center space-x-3">
             <div class="w-9 h-9 rounded-full bg-wa-green/20 flex items-center justify-center text-wa-green text-lg flex-shrink-0">
@@ -75,457 +64,303 @@
             <div>
                 <div class="flex items-center space-x-2">
                     <span class="font-bold text-white text-xs sm:text-sm">WA Business</span>
-                    <span class="bg-wa-accent/20 text-wa-green text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider">Synced</span>
+                    <span class="bg-wa-accent/20 text-wa-green text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider">Active</span>
                 </div>
-                <p class="text-xs text-gray-300">Ina-sync na WhatsApp Business kwenye Safari (macOS)</p>
+                <p class="text-xs text-gray-300">Syncing with WhatsApp Business on Safari (macOS)</p>
             </div>
         </div>
-        <button onclick="dismissSyncBanner()" class="text-gray-400 hover:text-white p-1 rounded-lg transition-colors">
+        <button onclick="dismissSyncBanner()" class="text-gray-400 hover:text-white p-1 rounded-lg">
             <i class="fa-solid fa-xmark"></i>
         </button>
     </div>
 
     <!-- Main Container -->
-    <main class="max-w-md md:max-w-2xl mx-auto w-full px-4 pt-4 space-y-5 flex-grow">
+    <main class="max-w-md md:max-w-2xl mx-auto w-full px-4 pt-4 space-y-6 flex-grow">
         
         <!-- Welcome Hero Section -->
         <div class="glass-panel rounded-2xl p-5 relative overflow-hidden shadow-xl border-l-4 border-l-wa-green">
-            <div class="absolute -right-6 -bottom-6 text-wa-green/5 text-9xl pointer-events-none">
-                <i class="fa-solid fa-robot"></i>
-            </div>
             <div class="flex justify-between items-start">
                 <div>
                     <div class="inline-flex items-center gap-2 bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-full text-xs font-semibold mb-2">
-                        <i class="fa-solid fa-fire text-xs"></i> Timothy Bot V2.5 Active
+                        <i class="fa-solid fa-fire text-xs"></i> Timothy Bot Dashboard
                     </div>
-                    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    <h1 class="text-2xl font-extrabold text-white tracking-tight">
                         Habari, Timothy bot! 👋
                     </h1>
                 </div>
-                <div class="flex flex-col items-end">
-                    <span class="flex items-center gap-1.5 text-xs text-wa-green font-medium bg-wa-green/10 border border-wa-green/20 px-2.5 py-1 rounded-full">
-                        <span class="w-2 h-2 rounded-full bg-wa-green pulse-dot"></span> Online
-                    </span>
-                </div>
             </div>
             <p class="text-sm text-gray-300 mt-2 leading-relaxed">
-                Chagua server yenye kasi ya juu hapa chini kuunganisha mfumo wako wa WhatsApp Bot, au zalia Nambari ya Kuoanisha (Pairing Code).
+                Chagua Pair Server hapa chini kupata Pair Code yako au nunua Panel ya Bot kwa bei nafuu kabisa.
             </p>
-            
-            <!-- Quick Action Buttons -->
-            <div class="grid grid-cols-2 gap-3 mt-4 pt-3 border-t border-gray-800">
-                <button onclick="openPairModal()" class="flex items-center justify-center gap-2 bg-wa-accent hover:bg-wa-teal text-white py-2.5 px-4 rounded-xl font-semibold text-xs transition-all shadow-lg shadow-wa-accent/20 active:scale-95">
-                    <i class="fa-solid fa-key"></i> Pair Code
-                </button>
-                <button onclick="toggleLogs()" class="flex items-center justify-center gap-2 bg-wa-subcard hover:bg-gray-700 text-gray-200 border border-gray-700 py-2.5 px-4 rounded-xl font-semibold text-xs transition-all active:scale-95">
-                    <i class="fa-solid fa-terminal"></i> Onyesha Logs
-                </button>
-            </div>
         </div>
 
-        <!-- Pairing Code Modal / Card Section (Interactive) -->
-        <div id="pairModal" class="hidden glass-panel rounded-2xl p-5 border border-wa-accent/30 shadow-2xl transition-all">
-            <div class="flex justify-between items-center mb-3">
-                <h3 class="font-bold text-white text-base flex items-center gap-2">
-                    <i class="fa-solid fa-qrcode text-wa-green"></i> Mfumo wa Pair Code
-                </h3>
-                <button onclick="closePairModal()" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <p class="text-xs text-gray-400 mb-4">Weka nambari yako ya WhatsApp ukiwa na kodi ya nchi (Mfano: +255712345678):</p>
-            
-            <div class="space-y-3">
-                <div class="relative">
-                    <span class="absolute left-3.5 top-3 text-gray-400 text-sm"><i class="fa-solid fa-phone"></i></span>
-                    <input type="text" id="phoneInput" placeholder="+255 7XX XXX XXX" class="w-full bg-wa-bg border border-gray-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-wa-accent focus:ring-1 focus:ring-wa-accent transition-all">
+        <!-- PAGE 1: PAIR CODE SERVERS -->
+        <div id="page-pair" class="space-y-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-qrcode text-wa-green text-base"></i>
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-gray-300">Chagua Pair Server (1 - 5)</h2>
                 </div>
-                
-                <button onclick="generatePairCode()" class="w-full bg-gradient-to-r from-wa-accent to-wa-teal hover:from-wa-teal hover:to-wa-dark text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-md transition-all">
-                    Tengeneza Pair Code Sasa
-                </button>
             </div>
 
-            <!-- Code Display Area -->
-            <div id="codeResult" class="hidden mt-4 p-4 bg-wa-bg rounded-xl border border-wa-accent/40 text-center">
-                <p class="text-xs text-gray-400">Nambari yako ya kuunganishia (Pairing Code):</p>
-                <div class="flex items-center justify-center gap-3 my-2">
-                    <span id="pairCodeDisplay" class="text-2xl font-mono font-extrabold text-wa-green tracking-widest">---</span>
-                    <button onclick="copyCode()" title="Copy Code" class="bg-wa-subcard hover:bg-gray-700 text-gray-200 p-2 rounded-lg text-xs">
-                        <i class="fa-regular fa-copy"></i>
-                    </button>
-                </div>
-                <p class="text-[11px] text-amber-400"><i class="fa-solid fa-clock"></i> Nambari hii itaisha muda wake baada ya sekunde 60.</p>
-            </div>
-        </div>
-
-        <!-- Active Servers Section Header -->
-        <div class="flex items-center justify-between pt-1">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-server text-wa-green text-sm"></i>
-                <h2 class="text-sm font-bold uppercase tracking-wider text-gray-300">Server Zinazofanya Kazi</h2>
-            </div>
-            <span class="bg-wa-green/10 text-wa-green text-xs font-bold px-2.5 py-0.5 rounded-full border border-wa-green/20">
-                5 / 5 Online
-            </span>
-        </div>
-
-        <!-- Server List -->
-        <div class="space-y-3">
-
-            <!-- Server 1 -->
-            <div id="server-card-1" class="glass-panel p-4 rounded-xl border border-wa-accent/40 hover:border-wa-accent transition-all">
+            <!-- Pair 1 -->
+            <div class="glass-panel p-4 rounded-xl border border-wa-accent/40 hover:border-wa-accent transition-all">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 rounded-xl bg-wa-accent/15 border border-wa-accent/30 flex items-center justify-center text-wa-green font-bold text-sm">
-                            S1
+                            P1
                         </div>
                         <div>
-                            <div class="flex items-center gap-2">
-                                <h3 class="font-bold text-white text-sm">SERVER 1</h3>
-                                <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold px-2 py-0.5 rounded">Ultra Fast</span>
-                            </div>
-                            <p class="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
-                                <span><i class="fa-solid fa-bolt text-amber-400 text-[10px]"></i> 99.9% Uptime</span>
-                                <span>•</span>
-                                <span><i class="fa-solid fa-signal text-wa-green text-[10px]"></i> 12ms Ping</span>
+                            <h3 class="font-bold text-white text-sm">PAIR SERVER 1</h3>
+                            <p class="text-xs text-emerald-400 flex items-center gap-1 mt-0.5">
+                                <i class="fa-solid fa-circle text-[8px]"></i> Inafanya Kazi (Active)
                             </p>
                         </div>
                     </div>
-                    <button onclick="connectServer(1)" id="btn-server-1" class="bg-wa-accent hover:bg-wa-teal text-white font-semibold text-xs px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-md">
-                        <i class="fa-solid fa-link text-[10px]"></i> Unganisha
-                    </button>
+                    <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="bg-wa-accent hover:bg-wa-teal text-white font-semibold text-xs px-4 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Fungua Pair 1
+                    </a>
                 </div>
             </div>
 
-            <!-- Server 2 -->
-            <div id="server-card-2" class="glass-panel p-4 rounded-xl border border-gray-800 hover:border-gray-700 transition-all">
+            <!-- Pair 2 -->
+            <div class="glass-panel p-4 rounded-xl border border-gray-800">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">
-                            S2
+                        <div class="w-10 h-10 rounded-xl bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 font-bold text-sm">
+                            P2
                         </div>
                         <div>
-                            <div class="flex items-center gap-2">
-                                <h3 class="font-bold text-white text-sm">SERVER 2</h3>
-                                <span class="bg-blue-500/20 text-blue-400 text-[10px] font-semibold px-2 py-0.5 rounded">Nairobi Node</span>
-                            </div>
-                            <p class="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
-                                <span><i class="fa-solid fa-bolt text-amber-400 text-[10px]"></i> 99.8% Uptime</span>
-                                <span>•</span>
-                                <span><i class="fa-solid fa-signal text-wa-green text-[10px]"></i> 18ms Ping</span>
-                            </p>
+                            <h3 class="font-bold text-white text-sm">PAIR SERVER 2</h3>
+                            <p class="text-xs text-gray-500 mt-0.5">Inasubiri Link...</p>
                         </div>
                     </div>
-                    <button onclick="connectServer(2)" id="btn-server-2" class="bg-wa-subcard hover:bg-gray-700 text-gray-200 border border-gray-700 font-semibold text-xs px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5">
-                        <i class="fa-solid fa-link text-[10px]"></i> Unganisha
+                    <button disabled class="bg-wa-subcard text-gray-500 cursor-not-allowed font-semibold text-xs px-4 py-2 rounded-lg border border-gray-800">
+                        Inasubiri...
                     </button>
                 </div>
             </div>
 
-            <!-- Server 3 -->
-            <div id="server-card-3" class="glass-panel p-4 rounded-xl border border-gray-800 hover:border-gray-700 transition-all">
+            <!-- Pair 3 -->
+            <div class="glass-panel p-4 rounded-xl border border-gray-800">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold text-sm">
-                            S3
+                        <div class="w-10 h-10 rounded-xl bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 font-bold text-sm">
+                            P3
                         </div>
                         <div>
-                            <div class="flex items-center gap-2">
-                                <h3 class="font-bold text-white text-sm">SERVER 3</h3>
-                                <span class="bg-purple-500/20 text-purple-400 text-[10px] font-semibold px-2 py-0.5 rounded">Cloudflare Edge</span>
-                            </div>
-                            <p class="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
-                                <span><i class="fa-solid fa-bolt text-amber-400 text-[10px]"></i> 99.95% Uptime</span>
-                                <span>•</span>
-                                <span><i class="fa-solid fa-signal text-wa-green text-[10px]"></i> 24ms Ping</span>
-                            </p>
+                            <h3 class="font-bold text-white text-sm">PAIR SERVER 3</h3>
+                            <p class="text-xs text-gray-500 mt-0.5">Inasubiri Link...</p>
                         </div>
                     </div>
-                    <button onclick="connectServer(3)" id="btn-server-3" class="bg-wa-subcard hover:bg-gray-700 text-gray-200 border border-gray-700 font-semibold text-xs px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5">
-                        <i class="fa-solid fa-link text-[10px]"></i> Unganisha
+                    <button disabled class="bg-wa-subcard text-gray-500 cursor-not-allowed font-semibold text-xs px-4 py-2 rounded-lg border border-gray-800">
+                        Inasubiri...
                     </button>
                 </div>
             </div>
 
-            <!-- Server 4 VIP -->
-            <div id="server-card-4" class="glass-panel p-4 rounded-xl border border-amber-500/20 hover:border-amber-500/40 transition-all">
+            <!-- Pair 4 -->
+            <div class="glass-panel p-4 rounded-xl border border-gray-800">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">
-                            VIP
+                        <div class="w-10 h-10 rounded-xl bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 font-bold text-sm">
+                            P4
                         </div>
                         <div>
-                            <div class="flex items-center gap-2">
-                                <h3 class="font-bold text-white text-sm">SERVER 4</h3>
-                                <span class="bg-amber-500/20 text-amber-400 text-[10px] font-semibold px-2 py-0.5 rounded">Premium High-Speed</span>
-                            </div>
-                            <p class="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
-                                <span><i class="fa-solid fa-shield-halved text-amber-400 text-[10px]"></i> Anti-Ban Guard</span>
-                                <span>•</span>
-                                <span><i class="fa-solid fa-signal text-wa-green text-[10px]"></i> 8ms Ping</span>
-                            </p>
+                            <h3 class="font-bold text-white text-sm">PAIR SERVER 4</h3>
+                            <p class="text-xs text-gray-500 mt-0.5">Inasubiri Link...</p>
                         </div>
                     </div>
-                    <button onclick="connectServer(4)" id="btn-server-4" class="bg-wa-subcard hover:bg-gray-700 text-gray-200 border border-gray-700 font-semibold text-xs px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5">
-                        <i class="fa-solid fa-link text-[10px]"></i> Unganisha
+                    <button disabled class="bg-wa-subcard text-gray-500 cursor-not-allowed font-semibold text-xs px-4 py-2 rounded-lg border border-gray-800">
+                        Inasubiri...
                     </button>
                 </div>
             </div>
 
-        </div>
-
-        <!-- Bot Capabilities / Features Control Box -->
-        <div class="glass-panel p-5 rounded-2xl space-y-3">
-            <h3 class="font-bold text-white text-sm flex items-center justify-between">
-                <span><i class="fa-solid fa-sliders text-wa-green mr-2"></i> Mipangilio ya Mfumo wa Bot</span>
-                <span class="text-[11px] text-gray-400 font-normal">Auto-Save Active</span>
-            </h3>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                <!-- Toggle 1 -->
-                <div class="flex items-center justify-between p-3 bg-wa-bg rounded-xl border border-gray-800">
-                    <div class="flex items-center gap-2.5">
-                        <i class="fa-solid fa-reply text-wa-green text-sm"></i>
+            <!-- Pair 5 -->
+            <div class="glass-panel p-4 rounded-xl border border-gray-800">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 font-bold text-sm">
+                            P5
+                        </div>
                         <div>
-                            <p class="text-xs font-semibold text-white">Auto Reply</p>
-                            <p class="text-[10px] text-gray-400">Jibu jumbe kiotomatiki</p>
+                            <h3 class="font-bold text-white text-sm">PAIR SERVER 5</h3>
+                            <p class="text-xs text-gray-500 mt-0.5">Inasubiri Link...</p>
                         </div>
                     </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" checked class="sr-only peer">
-                        <div class="w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-wa-green"></div>
-                    </label>
-                </div>
-
-                <!-- Toggle 2 -->
-                <div class="flex items-center justify-between p-3 bg-wa-bg rounded-xl border border-gray-800">
-                    <div class="flex items-center gap-2.5">
-                        <i class="fa-solid fa-trash-can-arrow-up text-amber-400 text-sm"></i>
-                        <div>
-                            <p class="text-xs font-semibold text-white">Anti-Delete</p>
-                            <p class="text-[10px] text-gray-400">Okoa jumbe zilizofutwa</p>
-                        </div>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" checked class="sr-only peer">
-                        <div class="w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-wa-green"></div>
-                    </label>
-                </div>
-
-                <!-- Toggle 3 -->
-                <div class="flex items-center justify-between p-3 bg-wa-bg rounded-xl border border-gray-800">
-                    <div class="flex items-center gap-2.5">
-                        <i class="fa-solid fa-brain text-purple-400 text-sm"></i>
-                        <div>
-                            <p class="text-xs font-semibold text-white">Gemini AI Assistant</p>
-                            <p class="text-[10px] text-gray-400">Jibu maswali kwa AI</p>
-                        </div>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" checked class="sr-only peer">
-                        <div class="w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-wa-green"></div>
-                    </label>
-                </div>
-
-                <!-- Toggle 4 -->
-                <div class="flex items-center justify-between p-3 bg-wa-bg rounded-xl border border-gray-800">
-                    <div class="flex items-center gap-2.5">
-                        <i class="fa-solid fa-download text-blue-400 text-sm"></i>
-                        <div>
-                            <p class="text-xs font-semibold text-white">Media Downloader</p>
-                            <p class="text-[10px] text-gray-400">Pakua status/video kiurahisi</p>
-                        </div>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" checked class="sr-only peer">
-                        <div class="w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-wa-green"></div>
-                    </label>
+                    <button disabled class="bg-wa-subcard text-gray-500 cursor-not-allowed font-semibold text-xs px-4 py-2 rounded-lg border border-gray-800">
+                        Inasubiri...
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Live Log / Terminal Stream View -->
-        <div id="logsPanel" class="hidden glass-panel p-4 rounded-2xl space-y-2 border border-gray-800">
-            <div class="flex items-center justify-between pb-2 border-b border-gray-800">
-                <span class="text-xs font-bold text-gray-300 flex items-center gap-2">
-                    <i class="fa-solid fa-terminal text-wa-green"></i> Live Console Logs
-                </span>
-                <button onclick="clearLogs()" class="text-[11px] text-gray-400 hover:text-white">
-                    Clear Logs
-                </button>
+        <!-- PAGE 2: BUY PANEL PACKAGES -->
+        <div id="page-buy" class="hidden space-y-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-shop text-wa-green text-base"></i>
+                <h2 class="text-sm font-bold uppercase tracking-wider text-gray-300">Nunua Bot Panel</h2>
             </div>
-            <div id="logConsole" class="font-mono text-[11px] leading-relaxed bg-black/60 p-3 rounded-xl h-36 overflow-y-auto space-y-1 text-gray-300 border border-gray-900">
-                <p class="text-emerald-400">[SYSTEM] Server 1 initialized successfully...</p>
-                <p class="text-blue-400">[WA-SOCKET] Connecting to WhatsApp Web sockets...</p>
-                <p class="text-gray-400">[INFO] Waiting for user session handshake...</p>
-                <p class="text-amber-400">[SYNC] Syncing contacts & active chats...</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                <!-- Package 3000 TZS -->
+                <div class="glass-panel p-5 rounded-2xl border border-gray-800 hover:border-wa-accent transition-all flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="bg-blue-500/20 text-blue-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Basic Panel</span>
+                        <h3 class="text-xl font-extrabold text-white mt-2">3,000 TZS</h3>
+                        <p class="text-xs text-gray-400 mt-1">Siku 30 / Bot 1 Active</p>
+                    </div>
+                    <a href="https://wa.me/255784766591?text=Habari%20Mtoa%20Huduma,%20nahitaji%20kununua%20Bot%20Panel%20ya%203,000%20TZS" target="_blank" class="w-full bg-wa-accent hover:bg-wa-teal text-white font-bold py-2.5 rounded-xl text-xs text-center block transition-all">
+                        Nunua Sasa
+                    </a>
+                </div>
+
+                <!-- Package 5000 TZS -->
+                <div class="glass-panel p-5 rounded-2xl border border-gray-800 hover:border-wa-accent transition-all flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="bg-purple-500/20 text-purple-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Standard Panel</span>
+                        <h3 class="text-xl font-extrabold text-white mt-2">5,000 TZS</h3>
+                        <p class="text-xs text-gray-400 mt-1">Siku 60 / Server yenye Kasi</p>
+                    </div>
+                    <a href="https://wa.me/255784766591?text=Habari%20Mtoa%20Huduma,%20nahitaji%20kununua%20Bot%20Panel%20ya%205,000%20TZS" target="_blank" class="w-full bg-wa-accent hover:bg-wa-teal text-white font-bold py-2.5 rounded-xl text-xs text-center block transition-all">
+                        Nunua Sasa
+                    </a>
+                </div>
+
+                <!-- Package 10000 TZS -->
+                <div class="glass-panel p-5 rounded-2xl border border-gray-800 hover:border-wa-accent transition-all flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Pro Panel</span>
+                        <h3 class="text-xl font-extrabold text-white mt-2">10,000 TZS</h3>
+                        <p class="text-xs text-gray-400 mt-1">Siku 90 / Anti-Ban System</p>
+                    </div>
+                    <a href="https://wa.me/255784766591?text=Habari%20Mtoa%20Huduma,%20nahitaji%20kununua%20Bot%20Panel%20ya%2010,000%20TZS" target="_blank" class="w-full bg-wa-accent hover:bg-wa-teal text-white font-bold py-2.5 rounded-xl text-xs text-center block transition-all">
+                        Nunua Sasa
+                    </a>
+                </div>
+
+                <!-- Package Admin 18500 TZS Unlimited -->
+                <div class="glass-panel p-5 rounded-2xl border-2 border-amber-500/50 relative overflow-hidden flex flex-col justify-between space-y-4 shadow-xl">
+                    <div class="absolute -right-6 -top-6 bg-amber-500/20 text-amber-400 p-8 rounded-full blur-xl pointer-events-none"></div>
+                    <div>
+                        <span class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase">
+                            <i class="fa-solid fa-crown mr-1"></i> Admin Panel Unlimited
+                        </span>
+                        <h3 class="text-2xl font-black text-amber-400 mt-2">18,500 TZS</h3>
+                        <p class="text-xs text-gray-300 mt-1">Muda Wote (Unlimited) + Bot Zote VIP</p>
+                    </div>
+                    <a href="https://wa.me/255784766591?text=Habari%20Mtoa%20Huduma,%20nahitaji%20kununua%20ADMIN%20PANEL%20UNLIMITED%20ya%2018,500%20TZS" target="_blank" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-extrabold py-2.5 rounded-xl text-xs text-center block shadow-lg transition-all">
+                        Nunua Admin Panel
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PAGE 3: SUPPORT & COMMUNITY -->
+        <div id="page-support" class="hidden space-y-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-headset text-wa-green text-base"></i>
+                <h2 class="text-sm font-bold uppercase tracking-wider text-gray-300">Msaada na Jamii</h2>
+            </div>
+
+            <!-- Talk to Admin Direct -->
+            <div class="glass-panel p-5 rounded-2xl border border-wa-accent/30 space-y-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-full bg-wa-green/20 text-wa-green flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-user-gear"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-base">Mtoa Huduma Rasmi</h3>
+                        <p class="text-xs text-gray-400">+255 784 766 591</p>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    Unahitaji msaada wa haraka, kununua panel au kupata ushauri? Ongea na mtoa huduma moja kwa moja kupitia WhatsApp.
+                </p>
+                <a href="https://wa.me/255784766591?text=Habari%20Mtoa%20Huduma,%20nina%20swali/shida%20kuhusu%20Timothy%20Bot" target="_blank" class="w-full bg-wa-accent hover:bg-wa-teal text-white font-bold py-3 rounded-xl text-xs text-center block transition-all shadow-md">
+                    <i class="fa-brands fa-whatsapp text-sm mr-1.5"></i> Chati na Mtoa Huduma WhatsApp
+                </a>
+            </div>
+
+            <!-- Join Community Links -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Group Link -->
+                <div class="glass-panel p-4 rounded-xl border border-gray-800 space-y-3">
+                    <div class="flex items-center gap-2 text-wa-green">
+                        <i class="fa-solid fa-users text-base"></i>
+                        <h4 class="font-bold text-white text-sm">WhatsApp Group</h4>
+                    </div>
+                    <p class="text-xs text-gray-400">Jiunge na kundi la watumiaji wote kupata msaada na taarifa mpya.</p>
+                    <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK_HERE" target="_blank" class="w-full bg-wa-subcard hover:bg-gray-700 text-gray-200 border border-gray-700 font-semibold py-2 rounded-lg text-xs text-center block transition-all">
+                        Join Group
+                    </a>
+                </div>
+
+                <!-- Channel Link -->
+                <div class="glass-panel p-4 rounded-xl border border-gray-800 space-y-3">
+                    <div class="flex items-center gap-2 text-blue-400">
+                        <i class="fa-solid fa-bullhorn text-base"></i>
+                        <h4 class="font-bold text-white text-sm">WhatsApp Channel</h4>
+                    </div>
+                    <p class="text-xs text-gray-400">Pata taarifa za updates, updates za server na matoleo mapya ya bot.</p>
+                    <a href="https://whatsapp.com/channel/YOUR_CHANNEL_LINK_HERE" target="_blank" class="w-full bg-wa-subcard hover:bg-gray-700 text-gray-200 border border-gray-700 font-semibold py-2 rounded-lg text-xs text-center block transition-all">
+                        Follow Channel
+                    </a>
+                </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Mobile Navigation Bar (Bottom) -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-wa-card/95 backdrop-blur-md border-t border-gray-800/80 px-6 py-2 shadow-2xl z-50">
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-wa-card/95 backdrop-blur-md border-t border-gray-800 px-6 py-2 shadow-2xl z-50">
         <div class="max-w-md mx-auto flex justify-between items-center">
             
-            <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center gap-1 text-wa-green transition-all">
-                <i class="fa-solid fa-house text-lg"></i>
-                <span class="text-[10px] font-semibold">Nyumbani</span>
-            </button>
-
-            <button onclick="openPairModal()" id="nav-pair" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200 transition-all">
+            <button onclick="showTab('pair')" id="tab-btn-pair" class="flex flex-col items-center gap-1 text-wa-green transition-all font-bold">
                 <i class="fa-solid fa-qrcode text-lg"></i>
-                <span class="text-[10px] font-medium">Pair Code</span>
+                <span class="text-[10px] font-semibold">Pair Code</span>
             </button>
 
-            <button onclick="toggleLogs()" id="nav-logs" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200 transition-all">
-                <i class="fa-solid fa-code text-lg"></i>
-                <span class="text-[10px] font-medium">Console</span>
+            <button onclick="showTab('buy')" id="tab-btn-buy" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200 transition-all">
+                <i class="fa-solid fa-shop text-lg"></i>
+                <span class="text-[10px] font-medium">Nunua Panel</span>
             </button>
 
-            <button onclick="showHelpToast()" id="nav-help" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200 transition-all">
-                <i class="fa-solid fa-circle-question text-lg"></i>
+            <button onclick="showTab('support')" id="tab-btn-support" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200 transition-all">
+                <i class="fa-solid fa-headset text-lg"></i>
                 <span class="text-[10px] font-medium">Msaada</span>
             </button>
 
         </div>
     </nav>
 
-    <!-- Notification Toast Container -->
-    <div id="toast" class="fixed top-5 right-5 z-50 transform translate-x-full transition-all duration-300 max-w-xs bg-wa-card border border-wa-green/40 p-3.5 rounded-xl shadow-2xl flex items-center space-x-3">
-        <i id="toastIcon" class="fa-solid fa-circle-check text-wa-green text-lg"></i>
-        <p id="toastMessage" class="text-xs text-white font-medium">Imefanikiwa!</p>
-    </div>
-
-    <!-- JavaScript Logic -->
+    <!-- JavaScript Navigation -->
     <script>
         function dismissSyncBanner() {
-            const banner = document.getElementById('syncBanner');
-            banner.style.display = 'none';
+            document.getElementById('syncBanner').style.display = 'none';
         }
 
-        function openPairModal() {
-            const modal = document.getElementById('pairModal');
-            modal.classList.remove('hidden');
-            modal.scrollIntoView({ behavior: 'smooth' });
+        function showTab(tabName) {
+            // Hide all pages
+            document.getElementById('page-pair').classList.add('hidden');
+            document.getElementById('page-buy').classList.add('hidden');
+            document.getElementById('page-support').classList.add('hidden');
+
+            // Reset navigation tab styles
+            const tabs = ['pair', 'buy', 'support'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-btn-${t}`);
+                btn.className = "flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200 transition-all";
+            });
+
+            // Show target page & activate tab
+            document.getElementById(`page-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+            activeBtn.className = "flex flex-col items-center gap-1 text-wa-green transition-all font-bold";
         }
-
-        function closePairModal() {
-            document.getElementById('pairModal').classList.add('hidden');
-        }
-
-        function toggleLogs() {
-            const logsPanel = document.getElementById('logsPanel');
-            logsPanel.classList.toggle('hidden');
-            if (!logsPanel.classList.contains('hidden')) {
-                logsPanel.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function generatePairCode() {
-            const phoneInput = document.getElementById('phoneInput').value.trim();
-            if(!phoneInput) {
-                showToast("Tafadhali weka nambari ya simu kwanza!", "error");
-                return;
-            }
-
-            // Generate realistic 8-character Pair Code
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let part1 = '', part2 = '';
-            for(let i=0; i<4; i++) {
-                part1 += chars.charAt(Math.floor(Math.random() * chars.length));
-                part2 += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            const generatedCode = `${part1}-${part2}`;
-
-            document.getElementById('pairCodeDisplay').innerText = generatedCode;
-            document.getElementById('codeResult').classList.remove('hidden');
-
-            addLog(`[PAIRING] Pair Code mpya imezalishwa kwa ajili ya ${phoneInput}: ${generatedCode}`);
-            showToast("Pair code imetengenezwa kwa mafanikio!", "success");
-        }
-
-        function copyCode() {
-            const code = document.getElementById('pairCodeDisplay').innerText;
-            navigator.clipboard.writeText(code);
-            showToast("Pair code imenakiliwa kwenye clipboard!", "success");
-        }
-
-        function connectServer(serverId) {
-            // Reset all server buttons
-            for(let i=1; i<=4; i++) {
-                const btn = document.getElementById(`btn-server-${i}`);
-                const card = document.getElementById(`server-card-${i}`);
-                if(btn && card) {
-                    btn.className = "bg-wa-subcard hover:bg-gray-700 text-gray-200 border border-gray-700 font-semibold text-xs px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5";
-                    btn.innerHTML = `<i class="fa-solid fa-link text-[10px]"></i> Unganisha`;
-                    card.classList.remove('border-wa-accent');
-                    card.classList.add('border-gray-800');
-                }
-            }
-
-            // Set connected server
-            const activeBtn = document.getElementById(`btn-server-${serverId}`);
-            const activeCard = document.getElementById(`server-card-${serverId}`);
-            if(activeBtn && activeCard) {
-                activeBtn.className = "bg-emerald-600 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-lg shadow-emerald-600/30";
-                activeBtn.innerHTML = `<i class="fa-solid fa-check text-[10px]"></i> Imeunganishwa`;
-                activeCard.classList.remove('border-gray-800');
-                activeCard.classList.add('border-wa-accent');
-            }
-
-            addLog(`[SERVER] Timothy Bot imeunganishwa kwenye SERVER ${serverId} kwa mafanikio!`);
-            showToast(`Umeunganishwa kikamilifu kwenye Server ${serverId}!`, "success");
-        }
-
-        function showToast(msg, type = "success") {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMessage');
-            const toastIcon = document.getElementById('toastIcon');
-
-            toastMsg.innerText = msg;
-            if(type === "error") {
-                toastIcon.className = "fa-solid fa-triangle-exclamation text-amber-400 text-lg";
-            } else {
-                toastIcon.className = "fa-solid fa-circle-check text-wa-green text-lg";
-            }
-
-            toast.classList.remove('translate-x-full');
-            setTimeout(() => {
-                toast.classList.add('translate-x-full');
-            }, 3000);
-        }
-
-        function showHelpToast() {
-            showToast("Bofya 'Pair Code' kuunganisha nambari yako ya WhatsApp.", "success");
-        }
-
-        function addLog(message) {
-            const console = document.getElementById('logConsole');
-            const p = document.createElement('p');
-            p.className = "text-gray-300";
-            const time = new Date().toLocaleTimeString();
-            p.innerHTML = `<span class="text-gray-500">[${time}]</span> ${message}`;
-            console.appendChild(p);
-            console.scrollTop = console.scrollHeight;
-        }
-
-        function clearLogs() {
-            document.getElementById('logConsole').innerHTML = `<p class="text-emerald-400">[SYSTEM] Logs zimefutwa kikamilifu.</p>`;
-        }
-
-        // Live Simulated Status Updates
-        setInterval(() => {
-            const logs = [
-                "[PING] Server 1 response time: 11ms",
-                "[SYNC] Messages synced with macOS Safari session.",
-                "[BOT] Auto-responder module active & scanning...",
-                "[SECURITY] Session handshake verified securely."
-            ];
-            const randomLog = logs[Math.floor(Math.random() * logs.length)];
-            addLog(randomLog);
-        }, 12000);
     </script>
 </body>
 </html>
