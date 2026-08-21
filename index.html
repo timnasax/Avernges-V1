@@ -129,6 +129,12 @@
             <p class="text-sm text-gray-300 mt-2 leading-relaxed">
                 Ujasiri. Ujuzi. Matokeo. Chagua Server ya Pair, nunua Bot Panel au chagua zaidi ya aina 50+ za Bot.
             </p>
+            <div class="mt-3 pt-3 border-t border-gray-800 flex items-center justify-between">
+                <span class="text-xs text-gray-400">📱 Official App:</span>
+                <a href="https://www.appcreator24.com/app4161455-gz8fm6" target="_blank" class="text-xs font-bold text-wa-green hover:underline flex items-center gap-1">
+                    <i class="fa-solid fa-download"></i> Download Avernges APK
+                </a>
+            </div>
         </div>
 
         <!-- PAGE 1: PAIR CODE SERVERS -->
@@ -176,24 +182,59 @@
                 </div>
             </div>
 
-            <!-- Pair 3 to 5 -->
-            <script>
-                for(let i=3; i<=5; i++){
-                    document.write(`
-                    <div class="glass-panel p-4 rounded-xl border border-gray-800">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-xl bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 font-bold text-sm">P${i}</div>
-                                <div>
-                                    <h3 class="font-bold text-white text-sm">PAIR SERVER ${i}</h3>
-                                    <p class="text-xs text-gray-500 mt-0.5">Awaiting Link...</p>
-                                </div>
-                            </div>
-                            <button disabled class="bg-wa-subcard text-gray-500 cursor-not-allowed font-semibold text-xs px-4 py-2 rounded-lg border border-gray-800">Pending...</button>
+            <!-- Pair 3 -->
+            <div class="glass-panel p-4 rounded-xl border border-wa-accent/40 hover:border-wa-accent transition-all">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-wa-accent/15 border border-wa-accent/30 flex items-center justify-center text-wa-green font-bold text-sm">P3</div>
+                        <div>
+                            <h3 class="font-bold text-white text-sm">PAIR SERVER 3</h3>
+                            <p class="text-xs text-emerald-400 flex items-center gap-1 mt-0.5">
+                                <i class="fa-solid fa-circle text-[8px]"></i> Active
+                            </p>
                         </div>
-                    </div>`);
-                }
-            </script>
+                    </div>
+                    <a href="https://avernges-sever3-9e50afff48f0.herokuapp.com" target="_blank" class="bg-wa-accent hover:bg-wa-teal text-white font-semibold text-xs px-4 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Open Pair 3
+                    </a>
+                </div>
+            </div>
+
+            <!-- Pair 4 -->
+            <div class="glass-panel p-4 rounded-xl border border-wa-accent/40 hover:border-wa-accent transition-all">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-wa-accent/15 border border-wa-accent/30 flex items-center justify-center text-wa-green font-bold text-sm">P4</div>
+                        <div>
+                            <h3 class="font-bold text-white text-sm">PAIR SERVER 4</h3>
+                            <p class="text-xs text-emerald-400 flex items-center gap-1 mt-0.5">
+                                <i class="fa-solid fa-circle text-[8px]"></i> Active
+                            </p>
+                        </div>
+                    </div>
+                    <a href="https://avernges-sever3-9e50afff48f0.herokuapp.com" target="_blank" class="bg-wa-accent hover:bg-wa-teal text-white font-semibold text-xs px-4 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Open Pair 4
+                    </a>
+                </div>
+            </div>
+
+            <!-- Pair 5 -->
+            <div class="glass-panel p-4 rounded-xl border border-wa-accent/40 hover:border-wa-accent transition-all">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-wa-accent/15 border border-wa-accent/30 flex items-center justify-center text-wa-green font-bold text-sm">P5</div>
+                        <div>
+                            <h3 class="font-bold text-white text-sm">PAIR SERVER 5</h3>
+                            <p class="text-xs text-emerald-400 flex items-center gap-1 mt-0.5">
+                                <i class="fa-solid fa-circle text-[8px]"></i> Active
+                            </p>
+                        </div>
+                    </div>
+                    <a href="https://avernges-sever3-9e50afff48f0.herokuapp.com" target="_blank" class="bg-wa-accent hover:bg-wa-teal text-white font-semibold text-xs px-4 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Open Pair 5
+                    </a>
+                </div>
+            </div>
         </div>
 
         <!-- PAGE 2: BUY PANEL PACKAGES -->
@@ -490,7 +531,7 @@
                 if (lower.includes('buy') || lower.includes('cost') || lower.includes('price')) {
                     response = "Bot prices start from 2,500 TZS up to 18,500 TZS for the Unlimited Admin Panel. Check the 'Buy Bots' or 'Panels' tab!";
                 } else if (lower.includes('pair') || lower.includes('code')) {
-                    response = "To get your Pair Code, click on 'Pair Code' tab, open Pair Server 1 or 2, and input your WhatsApp phone number.";
+                    response = "To get your Pair Code, click on 'Pair Code' tab, open Pair Server 1 to 5, and input your WhatsApp phone number.";
                 }
                 appendMsg(response, 'bot');
             }, 600);
