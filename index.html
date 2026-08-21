@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avengers Bot V1 - Pair Servers</title>
-    
-    <!-- Firebase SDK (Compat Version) -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-
     <style>
         * {
             box-sizing: border-box;
@@ -56,6 +51,7 @@
             margin-top: 5px;
         }
 
+        /* Form Styles */
         .form-group {
             margin-bottom: 20px;
         }
@@ -120,6 +116,7 @@
             text-decoration: underline;
         }
 
+        /* Server Dashboard Styles */
         .dashboard {
             display: none;
         }
@@ -202,8 +199,8 @@
                 <input type="text" id="signup-name" placeholder="Ingiza jina lako...">
             </div>
             <div class="form-group">
-                <label for="signup-email">Username:</label>
-                <input type="text" id="signup-email" placeholder="Ingiza Username...">
+                <label for="signup-email">Email / Username:</label>
+                <input type="text" id="signup-email" placeholder="Ingiza Email au Username...">
             </div>
             <div class="form-group">
                 <label for="signup-pass">Password:</label>
@@ -218,8 +215,8 @@
         <!-- FORM YA LOG IN -->
         <div id="login-box" style="display: none;">
             <div class="form-group">
-                <label for="login-user">Username:</label>
-                <input type="text" id="login-user" placeholder="Ingiza Username...">
+                <label for="login-user">Email / Username:</label>
+                <input type="text" id="login-user" placeholder="Ingiza Username/Email...">
             </div>
             <div class="form-group">
                 <label for="login-pass">Password:</label>
@@ -239,6 +236,7 @@
             </div>
 
             <div class="server-list">
+                <!-- Server 1 -->
                 <div class="server-card">
                     <div class="server-info">
                         <h3>SERVER 1 (Main)</h3>
@@ -247,6 +245,7 @@
                     <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
                 </div>
 
+                <!-- Server 2 -->
                 <div class="server-card">
                     <div class="server-info">
                         <h3>SERVER 2</h3>
@@ -255,6 +254,7 @@
                     <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
                 </div>
 
+                <!-- Server 3 -->
                 <div class="server-card">
                     <div class="server-info">
                         <h3>SERVER 3</h3>
@@ -263,6 +263,7 @@
                     <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
                 </div>
 
+                <!-- Server 4 -->
                 <div class="server-card">
                     <div class="server-info">
                         <h3>SERVER 4</h3>
@@ -271,6 +272,7 @@
                     <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
                 </div>
 
+                <!-- Server 5 -->
                 <div class="server-card">
                     <div class="server-info">
                         <h3>SERVER 5</h3>
@@ -286,37 +288,24 @@
     </div>
 
     <script>
-        // ⚠️ WEKA CONFIG YAKO YA FIREBASE HAPA CHINI:
-        const firebaseConfig = {
-            apiKey: "WEKA_API_KEY_YAKO_HAPA",
-            authDomain: "WEKA_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://WEKA_PROJECT_ID-default-rtdb.firebaseio.com",
-            projectId: "WEKA_PROJECT_ID",
-            storageBucket: "WEKA_PROJECT_ID.appspot.com",
-            messagingSenderId: "WEKA_SENDER_ID",
-            appId: "WEKA_APP_ID"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
+        // Badilisha muonekano kuenda Login
         function showLogin() {
             document.getElementById('signup-box').style.display = 'none';
             document.getElementById('login-box').style.display = 'block';
             document.getElementById('sub-title').innerText = 'Weka taarifa zako ili kuingia';
         }
 
+        // Badilisha muonekano kuenda Sign Up
         function showSignup() {
             document.getElementById('login-box').style.display = 'none';
             document.getElementById('signup-box').style.display = 'block';
             document.getElementById('sub-title').innerText = 'Sign Up au Log In ili kupata Pairing Code Server';
         }
 
-        // Sajili Account Mpya mtandaoni kwenye Firebase
+        // Sajili Account Mpya
         function register() {
             const name = document.getElementById('signup-name').value.trim();
-            const user = document.getElementById('signup-email').value.trim().toLowerCase();
+            const user = document.getElementById('signup-email').value.trim();
             const pass = document.getElementById('signup-pass').value.trim();
 
             if (!name || !user || !pass) {
@@ -324,32 +313,20 @@
                 return;
             }
 
-            // Mfumo unakagua kama Username tayari imetumiwa
-            database.ref('users/' + user).once('value', (snapshot) => {
-                if (snapshot.exists()) {
-                    alert('Username hii tayari ipo! Tafadhali tumia Username nyingine.');
-                } else {
-                    // Hifadhi data mtandaoni
-                    database.ref('users/' + user).set({
-                        name: name,
-                        password: pass,
-                        createdAt: new Date().toLocaleString()
-                    }, (error) => {
-                        if (error) {
-                            alert('Kuna makosa yametokea wakati wa kuhifadhi data!');
-                        } else {
-                            alert('Account imetengenezwa kikamilifu mtandaoni! Sasa unaweza kuingia.');
-                            document.getElementById('login-user').value = user;
-                            showLogin();
-                        }
-                    });
-                }
-            });
+            // Hifadhi kwenye Browser (LocalStorage)
+            const userData = { name: name, username: user, password: pass };
+            localStorage.setItem('avengers_user_' + user, JSON.stringify(userData));
+
+            alert('Account imetengenezwa kikamilifu! Sasa unaweza kuingia.');
+            
+            // Jaza taarifa kwenye Login na ubadilishe window
+            document.getElementById('login-user').value = user;
+            showLogin();
         }
 
-        // Ingia (Log In) kwa kutumia Firebase Database
+        // Ingia (Log In)
         function login() {
-            const user = document.getElementById('login-user').value.trim().toLowerCase();
+            const user = document.getElementById('login-user').value.trim();
             const pass = document.getElementById('login-pass').value.trim();
 
             if (!user || !pass) {
@@ -357,21 +334,24 @@
                 return;
             }
 
-            // Tafuta user kutoka Firebase Database
-            database.ref('users/' + user).once('value', (snapshot) => {
-                if (snapshot.exists()) {
-                    const userData = snapshot.val();
-                    if (userData.password === pass) {
-                        openDashboard(userData.name);
-                    } else {
-                        alert('Password sio sahihi!');
-                    }
-                } else {
-                    alert('Account haipatikani! Tafadhali jisajili kwanza.');
-                }
-            });
+            const savedUser = localStorage.getItem('avengers_user_' + user);
+
+            if (!savedUser) {
+                alert('Account haipatikani! Tafadhali jisajili kwanza.');
+                return;
+            }
+
+            const userData = JSON.parse(savedUser);
+
+            if (userData.password === pass) {
+                // Taarifa zipo sahihi - Fungua Dashboard
+                openDashboard(userData.name);
+            } else {
+                alert('Password sio sahihi! Jaribu tena.');
+            }
         }
 
+        // Fungua Dashboard
         function openDashboard(name) {
             document.getElementById('signup-box').style.display = 'none';
             document.getElementById('login-box').style.display = 'none';
@@ -381,6 +361,7 @@
             document.getElementById('welcome-message').innerText = 'Welcome, ' + name + '! 🔥';
         }
 
+        // Toka kwenye Account
         function logout() {
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('sub-title').style.display = 'block';
