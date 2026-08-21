@@ -51,6 +51,30 @@
             background: #202c33;
             border-radius: 3px;
         }
+
+        /* Animation ya maneno yanayotembea na kupotea */
+        @keyframes scrollAndFade {
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+
+        .animate-moving-text {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scrollAndFade 12s linear infinite;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between pb-28 md:pb-8 antialiased selection:bg-wa-accent selection:text-white">
@@ -74,6 +98,15 @@
         </button>
     </div>
 
+    <!-- Animated Moving Message (Timothy45 Avengers Banner) -->
+    <div class="bg-wa-subcard/80 border-b border-gray-800 py-2.5 overflow-hidden relative">
+        <div class="w-full overflow-hidden">
+            <p class="animate-moving-text text-xs sm:text-sm font-bold text-amber-400 flex items-center gap-2">
+                🚀 <span class="text-white">Karibu Timothy45 Avengers:</span> Tunajenga kesho iliyo bora kupitia ubunifu, ujasiri na teknolojia ya kileo! 🔥
+            </p>
+        </div>
+    </div>
+
     <!-- Main Container -->
     <main class="max-w-md md:max-w-4xl mx-auto w-full px-4 pt-4 space-y-6 flex-grow">
         
@@ -82,15 +115,19 @@
             <div class="flex justify-between items-start">
                 <div>
                     <div class="inline-flex items-center gap-2 bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-full text-xs font-semibold mb-2">
-                        <i class="fa-solid fa-fire text-xs"></i> Timothy Bot Dashboard
+                        <i class="fa-solid fa-shield-halved text-xs"></i> Timothy45 Avengers Project
                     </div>
-                    <h1 class="text-2xl font-extrabold text-white tracking-tight">
-                        Hello, Timothy bot! 👋
-                    </h1>
+                    
+                    <!-- Title Animation (Shifting & Fading Header) -->
+                    <div class="overflow-hidden py-1">
+                        <h1 class="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-wa-green via-emerald-400 to-teal-200 tracking-tight animate-moving-text">
+                            Hello 👋 Timothy45 Avengers!
+                        </h1>
+                    </div>
                 </div>
             </div>
             <p class="text-sm text-gray-300 mt-2 leading-relaxed">
-                Choose a Pair Server, purchase a Panel or browse over 50+ custom Bot solutions.
+                Ujasiri. Ujuzi. Matokeo. Chagua Server ya Pair, nunua Bot Panel au chagua zaidi ya aina 50+ za Bot.
             </p>
         </div>
 
