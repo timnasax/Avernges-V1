@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avengers Bot V1 - Pair Servers</title>
+    <title>Avengers Bot V1 - Pairing Servers</title>
     <style>
         * {
             box-sizing: border-box;
@@ -24,12 +24,13 @@
 
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 16px;
             padding: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -39,28 +40,30 @@
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 26px;
             color: #00d2ff;
             text-transform: uppercase;
             letter-spacing: 2px;
+            font-weight: 700;
         }
 
         .header p {
             font-size: 14px;
             color: #ccc;
-            margin-top: 5px;
+            margin-top: 6px;
         }
 
         /* Form Styles */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 6px;
+            font-size: 13px;
             color: #ddd;
+            font-weight: 500;
         }
 
         .form-group input {
@@ -70,39 +73,40 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: rgba(0, 0, 0, 0.3);
             color: #fff;
-            font-size: 15px;
+            font-size: 14px;
             outline: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
         .form-group input:focus {
             border-color: #00d2ff;
-            box-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
         }
 
         .btn {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: linear-gradient(45deg, #00d2ff, #3a7bd5);
             border: none;
             border-radius: 8px;
             color: #fff;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             margin-top: 10px;
         }
 
         .btn:hover {
-            opacity: 0.9;
+            opacity: 0.95;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
         }
 
         .toggle-text {
             text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
+            margin-top: 18px;
+            font-size: 13px;
             color: #aaa;
         }
 
@@ -116,59 +120,64 @@
             text-decoration: underline;
         }
 
-        /* Server Dashboard Styles */
+        /* Dashboard Styles */
         .dashboard {
             display: none;
         }
 
         .welcome-box {
-            background: rgba(0, 210, 255, 0.15);
+            background: rgba(0, 210, 255, 0.12);
             border-left: 4px solid #00d2ff;
             padding: 15px;
             border-radius: 6px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: center;
         }
 
         .welcome-box h2 {
-            font-size: 20px;
+            font-size: 18px;
             color: #fff;
         }
 
         .server-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .server-card {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 14px 18px;
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.2s ease;
+        }
+
+        .server-card:hover {
+            transform: scale(1.02);
         }
 
         .server-info h3 {
-            font-size: 16px;
+            font-size: 15px;
             color: #00d2ff;
         }
 
         .server-info p {
             font-size: 12px;
             color: #2ea44f;
-            margin-top: 3px;
+            margin-top: 2px;
         }
 
         .server-btn {
-            padding: 8px 16px;
+            padding: 8px 14px;
             background: #238636;
             color: #fff;
             text-decoration: none;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             transition: 0.3s;
         }
@@ -179,7 +188,11 @@
 
         .btn-logout {
             background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            margin-top: 25px;
+            margin-top: 20px;
+        }
+
+        .btn-logout:hover {
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
         }
     </style>
 </head>
@@ -189,50 +202,50 @@
         <!-- HEADER -->
         <div class="header">
             <h1>AVENGERS BOT V1</h1>
-            <p id="sub-title">Sign Up au Log In ili kupata Pairing Code Server</p>
+            <p id="sub-title">Sign up or log in to access pairing code servers</p>
         </div>
 
-        <!-- FORM YA REGISTRATION (SIGN UP) -->
+        <!-- SIGN UP FORM -->
         <div id="signup-box">
             <div class="form-group">
-                <label for="signup-name">Jina Lako:</label>
-                <input type="text" id="signup-name" placeholder="Ingiza jina lako...">
+                <label for="signup-name">Full Name</label>
+                <input type="text" id="signup-name" placeholder="Enter your full name">
             </div>
             <div class="form-group">
-                <label for="signup-email">Email / Username:</label>
-                <input type="text" id="signup-email" placeholder="Ingiza Email au Username...">
+                <label for="signup-email">Email or Username</label>
+                <input type="text" id="signup-email" placeholder="Enter your email or username">
             </div>
             <div class="form-group">
-                <label for="signup-pass">Password:</label>
-                <input type="password" id="signup-pass" placeholder="Ingiza Password...">
+                <label for="signup-pass">Password</label>
+                <input type="password" id="signup-pass" placeholder="Create a password">
             </div>
-            <button class="btn" onclick="register()">Tengeneza Account</button>
+            <button class="btn" onclick="register()">Create Account</button>
             <div class="toggle-text">
-                Umeshatengeneza Account? <span onclick="showLogin()">Log In Hapa</span>
+                Already have an account? <span onclick="showLogin()">Log In</span>
             </div>
         </div>
 
-        <!-- FORM YA LOG IN -->
+        <!-- LOG IN FORM -->
         <div id="login-box" style="display: none;">
             <div class="form-group">
-                <label for="login-user">Email / Username:</label>
-                <input type="text" id="login-user" placeholder="Ingiza Username/Email...">
+                <label for="login-user">Email or Username</label>
+                <input type="text" id="login-user" placeholder="Enter username or email">
             </div>
             <div class="form-group">
-                <label for="login-pass">Password:</label>
-                <input type="password" id="login-pass" placeholder="Ingiza Password...">
+                <label for="login-pass">Password</label>
+                <input type="password" id="login-pass" placeholder="Enter your password">
             </div>
-            <button class="btn" onclick="login()">Ingia (Log In)</button>
+            <button class="btn" onclick="login()">Log In</button>
             <div class="toggle-text">
-                Huna Account? <span onclick="showSignup()">Create Account Hapa</span>
+                Don't have an account? <span onclick="showSignup()">Sign Up</span>
             </div>
         </div>
 
-        <!-- DASHBOARD YA PAIR SERVERS -->
+        <!-- DASHBOARD -->
         <div id="dashboard" class="dashboard">
             <div class="welcome-box">
                 <h2 id="welcome-message">Welcome!</h2>
-                <p style="font-size: 13px; color: #ddd; margin-top: 5px;">Chagua Server hapa chini kupata Pairing Code yako:</p>
+                <p style="font-size: 13px; color: #ddd; margin-top: 4px;">Select a server below to get your pairing code:</p>
             </div>
 
             <div class="server-list">
@@ -258,7 +271,7 @@
                 <div class="server-card">
                     <div class="server-info">
                         <h3>SERVER 3</h3>
-                        <p>● Active - Fast Speed</p>
+                        <p>● Active - High Speed</p>
                     </div>
                     <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
                 </div>
@@ -267,7 +280,7 @@
                 <div class="server-card">
                     <div class="server-info">
                         <h3>SERVER 4</h3>
-                        <p>● Active - VIP</p>
+                        <p>● Active - VIP Server</p>
                     </div>
                     <a href="https://avernges-minibot-eb0f19c9c580.herokuapp.com/" target="_blank" class="server-btn">Get Pair Code</a>
                 </div>
@@ -288,70 +301,71 @@
     </div>
 
     <script>
-        // Badilisha muonekano kuenda Login
+        // Check if user is already logged in on page load
+        window.onload = function() {
+            const activeUser = localStorage.getItem('avengers_active_session');
+            if (activeUser) {
+                const userData = JSON.parse(activeUser);
+                openDashboard(userData.name);
+            }
+        };
+
         function showLogin() {
             document.getElementById('signup-box').style.display = 'none';
             document.getElementById('login-box').style.display = 'block';
-            document.getElementById('sub-title').innerText = 'Weka taarifa zako ili kuingia';
+            document.getElementById('sub-title').innerText = 'Enter your credentials to log in';
         }
 
-        // Badilisha muonekano kuenda Sign Up
         function showSignup() {
             document.getElementById('login-box').style.display = 'none';
             document.getElementById('signup-box').style.display = 'block';
-            document.getElementById('sub-title').innerText = 'Sign Up au Log In ili kupata Pairing Code Server';
+            document.getElementById('sub-title').innerText = 'Sign up or log in to access pairing code servers';
         }
 
-        // Sajili Account Mpya
         function register() {
             const name = document.getElementById('signup-name').value.trim();
-            const user = document.getElementById('signup-email').value.trim();
+            const user = document.getElementById('signup-email').value.trim().toLowerCase();
             const pass = document.getElementById('signup-pass').value.trim();
 
             if (!name || !user || !pass) {
-                alert('Tafadhali jaza sehemu zote kikamilifu!');
+                alert('Please fill in all required fields!');
                 return;
             }
 
-            // Hifadhi kwenye Browser (LocalStorage)
             const userData = { name: name, username: user, password: pass };
             localStorage.setItem('avengers_user_' + user, JSON.stringify(userData));
 
-            alert('Account imetengenezwa kikamilifu! Sasa unaweza kuingia.');
-            
-            // Jaza taarifa kwenye Login na ubadilishe window
+            alert('Account created successfully! You can now log in.');
             document.getElementById('login-user').value = user;
             showLogin();
         }
 
-        // Ingia (Log In)
         function login() {
-            const user = document.getElementById('login-user').value.trim();
+            const user = document.getElementById('login-user').value.trim().toLowerCase();
             const pass = document.getElementById('login-pass').value.trim();
 
             if (!user || !pass) {
-                alert('Tafadhali weka Username na Password!');
+                alert('Please enter your username/email and password!');
                 return;
             }
 
             const savedUser = localStorage.getItem('avengers_user_' + user);
 
             if (!savedUser) {
-                alert('Account haipatikani! Tafadhali jisajili kwanza.');
+                alert('Account not found. Please register first!');
                 return;
             }
 
             const userData = JSON.parse(savedUser);
 
             if (userData.password === pass) {
-                // Taarifa zipo sahihi - Fungua Dashboard
+                localStorage.setItem('avengers_active_session', JSON.stringify(userData));
                 openDashboard(userData.name);
             } else {
-                alert('Password sio sahihi! Jaribu tena.');
+                alert('Incorrect password! Please try again.');
             }
         }
 
-        // Fungua Dashboard
         function openDashboard(name) {
             document.getElementById('signup-box').style.display = 'none';
             document.getElementById('login-box').style.display = 'none';
@@ -361,8 +375,8 @@
             document.getElementById('welcome-message').innerText = 'Welcome, ' + name + '! 🔥';
         }
 
-        // Toka kwenye Account
         function logout() {
+            localStorage.removeItem('avengers_active_session');
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('sub-title').style.display = 'block';
             showLogin();
