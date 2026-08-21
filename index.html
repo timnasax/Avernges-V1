@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timothy Bot - WhatsApp Server & Panel Dashboard</title>
+    <title>Timothy Bot - WhatsApp Server & Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -52,7 +52,7 @@
             border-radius: 3px;
         }
 
-        /* Animation ya maneno yanayotembea na kupotea */
+        /* Moving Text Animation */
         @keyframes scrollAndFade {
             0% {
                 transform: translateX(100%);
@@ -102,7 +102,7 @@
     <div class="bg-wa-subcard/80 border-b border-gray-800 py-2.5 overflow-hidden relative">
         <div class="w-full overflow-hidden">
             <p class="animate-moving-text text-xs sm:text-sm font-bold text-amber-400 flex items-center gap-2">
-                🚀 <span class="text-white">Karibu Timothy45 Avengers:</span> Tunajenga kesho iliyo bora kupitia ubunifu, ujasiri na teknolojia ya kileo! 🔥
+                🚀 <span class="text-white">Welcome to Timothy45 Avengers:</span> Building a better tomorrow through innovation, courage, and modern technology! 🔥
             </p>
         </div>
     </div>
@@ -118,7 +118,6 @@
                         <i class="fa-solid fa-shield-halved text-xs"></i> Timothy45 Avengers Project
                     </div>
                     
-                    <!-- Title Animation (Shifting & Fading Header) -->
                     <div class="overflow-hidden py-1">
                         <h1 class="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-wa-green via-emerald-400 to-teal-200 tracking-tight animate-moving-text">
                             Hello 👋 Timothy45 Avengers!
@@ -127,7 +126,7 @@
                 </div>
             </div>
             <p class="text-sm text-gray-300 mt-2 leading-relaxed">
-                Ujasiri. Ujuzi. Matokeo. Chagua Server ya Pair, nunua Bot Panel au chagua zaidi ya aina 50+ za Bot.
+                Courage. Skill. Results. Choose a Pair Server, buy a Bot Panel, or share your feedback about our services.
             </p>
             <div class="mt-3 pt-3 border-t border-gray-800 flex items-center justify-between">
                 <span class="text-xs text-gray-400">📱 Official App:</span>
@@ -272,37 +271,36 @@
             </div>
         </div>
 
-        <!-- PAGE 3: BUY BOTS (50+ BOTS) -->
-        <div id="page-bots" class="hidden space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <!-- PAGE 3: USER COMMENTS & FEEDBACK -->
+        <div id="page-comments" class="hidden space-y-4">
+            <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-robot text-wa-green text-base"></i>
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-gray-300">Select & Buy Bot (50+ Types)</h2>
+                    <i class="fa-solid fa-comments text-wa-green text-base"></i>
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-gray-300">User Comments & Feedback</h2>
                 </div>
-                <!-- Search Box -->
-                <div class="relative w-full sm:w-64">
-                    <input type="text" id="botSearch" onkeyup="filterBots()" placeholder="Search bot..." class="w-full bg-wa-subcard text-white text-xs px-3 py-2 pl-8 rounded-xl border border-gray-700 focus:outline-none focus:border-wa-accent">
-                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-gray-400 text-xs"></i>
-                </div>
+                <span id="commentCount" class="text-xs bg-wa-accent/20 text-wa-green px-2.5 py-1 rounded-full font-bold">0 Comments</span>
             </div>
 
-            <!-- Category Filter Buttons -->
-            <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-none text-xs">
-                <button onclick="filterCategory('all')" class="cat-btn bg-wa-accent text-white px-3 py-1.5 rounded-lg whitespace-nowrap font-semibold">All Bots</button>
-                <button onclick="filterCategory('ai')" class="cat-btn bg-wa-subcard text-gray-300 hover:text-white px-3 py-1.5 rounded-lg whitespace-nowrap">AI & Chat</button>
-                <button onclick="filterCategory('social')" class="cat-btn bg-wa-subcard text-gray-300 hover:text-white px-3 py-1.5 rounded-lg whitespace-nowrap">Social & Group</button>
-                <button onclick="filterCategory('business')" class="cat-btn bg-wa-subcard text-gray-300 hover:text-white px-3 py-1.5 rounded-lg whitespace-nowrap">Business & Sales</button>
-                <button onclick="filterCategory('tools')" class="cat-btn bg-wa-subcard text-gray-300 hover:text-white px-3 py-1.5 rounded-lg whitespace-nowrap">Media & Tools</button>
+            <!-- Comment Input Box -->
+            <div class="glass-panel p-4 rounded-2xl border border-gray-800 space-y-3">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider">Leave Your Comment Here:</h3>
+                <input type="text" id="commenterName" placeholder="Your Name..." class="w-full bg-wa-subcard text-white text-xs px-3 py-2.5 rounded-xl border border-gray-700 focus:outline-none focus:border-wa-accent">
+                <textarea id="commentText" rows="3" placeholder="Write your comment or feedback here..." class="w-full bg-wa-subcard text-white text-xs p-3 rounded-xl border border-gray-700 focus:outline-none focus:border-wa-accent resize-none"></textarea>
+                <button onclick="addComment()" class="w-full bg-wa-accent hover:bg-wa-teal text-white font-bold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-lg">
+                    <i class="fa-solid fa-paper-plane"></i> Submit Comment
+                </button>
             </div>
 
-            <!-- Bot Grid (50+ Items Generated via JS) -->
-            <div id="botGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+            <!-- Comments List Container -->
+            <div class="space-y-3" id="commentsList">
+                <!-- Comments rendered dynamically via JavaScript -->
+            </div>
         </div>
 
         <!-- PAGE 4: LIVE CHAT & SUPPORT -->
         <div id="page-chat" class="hidden space-y-4">
             <div class="flex items-center gap-2">
-                <i class="fa-solid fa-comments text-wa-green text-base"></i>
+                <i class="fa-solid fa-headset text-wa-green text-base"></i>
                 <h2 class="text-sm font-bold uppercase tracking-wider text-gray-300">Live Support Chat & Answers</h2>
             </div>
 
@@ -396,13 +394,14 @@
                 <span class="text-[9px]">Panels</span>
             </button>
 
-            <button onclick="showTab('bots')" id="tab-btn-bots" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200 transition-all">
-                <i class="fa-solid fa-robot text-base"></i>
-                <span class="text-[9px]">Buy Bots</span>
+            <!-- Comments Menu Item -->
+            <button onclick="showTab('comments')" id="tab-btn-comments" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200 transition-all">
+                <i class="fa-solid fa-comments text-base"></i>
+                <span class="text-[9px]">Comments</span>
             </button>
 
             <button onclick="showTab('chat')" id="tab-btn-chat" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200 transition-all">
-                <i class="fa-solid fa-comments text-base"></i>
+                <i class="fa-solid fa-headset text-base"></i>
                 <span class="text-[9px]">Live Chat</span>
             </button>
 
@@ -414,94 +413,73 @@
         </div>
     </nav>
 
-    <!-- JavaScript Data & Logic -->
+    <!-- JavaScript Logic -->
     <script>
-        // --- 50+ BOTS LIST DATA ---
-        const botList = [
-            { id: 1, name: "ChatGPT-4o WhatsApp Bot", category: "ai", icon: "fa-brain", price: "5,000 TZS", desc: "AI Bot powered by GPT-4o for smart auto-replies, essays, and coding." },
-            { id: 2, name: "Auto Group Security Bot", category: "social", icon: "fa-shield-halved", price: "4,000 TZS", desc: "Anti-link, anti-spam, kick members automatically, and welcome notes." },
-            { id: 3, name: "E-Commerce Store Bot", category: "business", icon: "fa-cart-shopping", price: "10,000 TZS", desc: "Automated WhatsApp shop catalog with cart and mobile payment integration." },
-            { id: 4, name: "HD Media Downloader Bot", category: "tools", icon: "fa-download", price: "3,000 TZS", desc: "Downloads YouTube, TikTok (no watermark), Instagram, and Statuses." },
-            { id: 5, name: "Forex Signals Alerts Bot", category: "business", icon: "fa-chart-line", price: "8,000 TZS", desc: "Sends automated Forex buy/sell market analysis and instant alerts." },
-            { id: 6, name: "AI Image Generator Bot", category: "ai", icon: "fa-palette", price: "5,000 TZS", desc: "Converts text prompts into high-quality AI images instantly." },
-            { id: 7, name: "Auto Bulk Message Sender", category: "business", icon: "fa-paper-plane", price: "7,000 TZS", desc: "Send targeted marketing messages to hundreds of contacts safely." },
-            { id: 8, name: "Auto Sticker Converter Bot", category: "tools", icon: "fa-note-sticky", price: "2,500 TZS", desc: "Converts images and videos to WhatsApp animated stickers." },
-            { id: 9, name: "Telegram to WA Forwarder", category: "social", icon: "fa-share-nodes", price: "6,000 TZS", desc: "Automatically syncs posts from Telegram channels to WhatsApp groups." },
-            { id: 10, name: "Crypto Trading Alert Bot", category: "business", icon: "fa-bitcoin-sign", price: "8,000 TZS", desc: "Real-time cryptocurrency price alerts and market movements." },
-            { id: 11, name: "Voice Note Translator Bot", category: "ai", icon: "fa-microphone", price: "4,500 TZS", desc: "Converts WhatsApp voice messages into translated text." },
-            { id: 12, name: "School Homework Helper", category: "ai", icon: "fa-graduation-cap", price: "4,000 TZS", desc: "Solves math, science, and essay questions step-by-step." },
-            { id: 13, name: "Customer Support Ticketing", category: "business", icon: "fa-headset", price: "9,000 TZS", desc: "Manage client inquiries, support tickets, and auto-routing." },
-            { id: 14, name: "Music Search & Play Bot", category: "tools", icon: "fa-music", price: "3,000 TZS", desc: "Finds and sends high-quality MP3 audio tracks directly." },
-            { id: 15, name: "WhatsApp Quiz Game Bot", category: "social", icon: "fa-gamepad", price: "3,500 TZS", desc: "Interactive trivia quiz games for groups with leaderboard score." }
+        // Default Sample Comments
+        const defaultComments = [
+            { name: "Timothy Admin", text: "Welcome to the Timothy45 Avengers project! Feel free to leave your comments here.", time: "Just now" },
+            { name: "Avernges Fan", text: "Pair server 3 is extremely fast, thank you!", time: "1 hour ago" }
         ];
 
-        // Generate 35+ more bots dynamically to reach 50+
-        const categories = ["ai", "social", "business", "tools"];
-        const botTypes = ["Automator", "Notifier", "Sync Bot", "Manager", "Assistant", "Tracker"];
-        
-        for (let i = 16; i <= 52; i++) {
-            const cat = categories[i % categories.length];
-            botList.push({
-                id: i,
-                name: `Custom ${botTypes[i % botTypes.length]} Pro v${i}`,
-                category: cat,
-                icon: cat === 'ai' ? 'fa-microchip' : cat === 'social' ? 'fa-comments' : cat === 'business' ? 'fa-briefcase' : 'fa-wrench',
-                price: `${(3 + (i % 8)) * 1000} TZS`,
-                desc: `High performance automated solution for ${cat} management and automation.`
-            });
-        }
+        // Load Comments from LocalStorage (Prevents deletion on refresh)
+        function loadComments() {
+            let stored = localStorage.getItem('timothy_comments');
+            let comments = stored ? JSON.parse(stored) : defaultComments;
+            
+            const listContainer = document.getElementById('commentsList');
+            const countContainer = document.getElementById('commentCount');
+            
+            listContainer.innerHTML = '';
+            countContainer.innerText = `${comments.length} Comments`;
 
-        // Render Bots to DOM
-        function renderBots(items) {
-            const container = document.getElementById('botGrid');
-            container.innerHTML = '';
-            items.forEach(bot => {
-                const encodedMsg = encodeURIComponent(`Hello Provider, I want to purchase the "${bot.name}" for ${bot.price}`);
-                container.innerHTML += `
-                    <div class="glass-panel p-4 rounded-xl border border-gray-800 hover:border-wa-accent transition-all flex flex-col justify-between space-y-3">
-                        <div>
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="w-8 h-8 rounded-lg bg-wa-accent/15 text-wa-green flex items-center justify-center text-sm">
-                                    <i class="fa-solid ${bot.icon}"></i>
-                                </div>
-                                <span class="text-xs font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-md">${bot.price}</span>
-                            </div>
-                            <h3 class="font-bold text-white text-xs">${bot.name}</h3>
-                            <p class="text-[11px] text-gray-400 mt-1 leading-snug">${bot.desc}</p>
+            comments.forEach(c => {
+                listContainer.innerHTML += `
+                    <div class="glass-panel p-3 rounded-xl border border-gray-800 space-y-1">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-wa-green flex items-center gap-1.5">
+                                <i class="fa-solid fa-user-circle"></i> ${escapeHtml(c.name)}
+                            </span>
+                            <span class="text-[10px] text-gray-500">${c.time}</span>
                         </div>
-                        <a href="https://wa.me/255784766591?text=${encodedMsg}" target="_blank" class="w-full bg-wa-subcard hover:bg-wa-accent text-gray-200 hover:text-white font-semibold py-1.5 rounded-lg text-xs text-center border border-gray-700 hover:border-wa-accent transition-all block">
-                            Order Bot
-                        </a>
+                        <p class="text-xs text-gray-300 leading-relaxed pl-5">${escapeHtml(c.text)}</p>
                     </div>
                 `;
             });
         }
-        renderBots(botList);
 
-        // Search Filter
-        function filterBots() {
-            const query = document.getElementById('botSearch').value.toLowerCase();
-            const filtered = botList.filter(b => b.name.toLowerCase().includes(query) || b.desc.toLowerCase().includes(query));
-            renderBots(filtered);
+        // Add New Comment & Save to LocalStorage
+        function addComment() {
+            const nameInput = document.getElementById('commenterName');
+            const textInput = document.getElementById('commentText');
+
+            const name = nameInput.value.trim();
+            const text = textInput.value.trim();
+
+            if (!name || !text) {
+                alert("Please fill in both your name and comment before submitting!");
+                return;
+            }
+
+            let stored = localStorage.getItem('timothy_comments');
+            let comments = stored ? JSON.parse(stored) : defaultComments;
+
+            const now = new Date();
+            const timeString = `${now.getHours()}:${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()}`;
+
+            comments.unshift({ name: name, text: text, time: `Today at ${timeString}` });
+            localStorage.setItem('timothy_comments', JSON.stringify(comments));
+
+            textInput.value = '';
+            loadComments();
         }
 
-        // Category Filter
-        function filterCategory(cat) {
-            document.querySelectorAll('.cat-btn').forEach(b => {
-                b.className = "cat-btn bg-wa-subcard text-gray-300 hover:text-white px-3 py-1.5 rounded-lg whitespace-nowrap";
-            });
-            event.target.className = "cat-btn bg-wa-accent text-white px-3 py-1.5 rounded-lg whitespace-nowrap font-semibold";
-            
-            if (cat === 'all') {
-                renderBots(botList);
-            } else {
-                renderBots(botList.filter(b => b.category === cat));
-            }
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
 
         // Navigation Tabs Toggle
         function showTab(tabName) {
-            ['pair', 'panel', 'bots', 'chat', 'community'].forEach(t => {
+            ['pair', 'panel', 'comments', 'chat', 'community'].forEach(t => {
                 document.getElementById(`page-${t}`).classList.add('hidden');
                 const btn = document.getElementById(`tab-btn-${t}`);
                 btn.className = "flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200 transition-all";
@@ -529,7 +507,7 @@
                 let response = "Thank you for reaching out! For instant order completion, please contact our live admin on WhatsApp at +255 784 766 591.";
                 const lower = text.toLowerCase();
                 if (lower.includes('buy') || lower.includes('cost') || lower.includes('price')) {
-                    response = "Bot prices start from 2,500 TZS up to 18,500 TZS for the Unlimited Admin Panel. Check the 'Buy Bots' or 'Panels' tab!";
+                    response = "Bot prices start from 2,500 TZS up to 18,500 TZS for the Unlimited Admin Panel. Check the 'Panels' tab!";
                 } else if (lower.includes('pair') || lower.includes('code')) {
                     response = "To get your Pair Code, click on 'Pair Code' tab, open Pair Server 1 to 5, and input your WhatsApp phone number.";
                 }
@@ -559,6 +537,9 @@
             box.innerHTML += msgHtml;
             box.scrollTop = box.scrollHeight;
         }
+
+        // Load Comments on Initial Page Load
+        window.onload = loadComments;
     </script>
 </body>
 </html>
